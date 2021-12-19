@@ -36,7 +36,7 @@ export default class HelloWorldScene extends Phaser.Scene
         // Instancier les terrains
         for(let i=0; i<16; i++) {
             this.terrains.push(
-                new Terrain(CasePosition[i])
+                new Terrain(this, CasePosition[i])
             )
         }
 

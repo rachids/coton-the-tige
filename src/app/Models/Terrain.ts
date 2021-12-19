@@ -4,18 +4,22 @@ import eventsCenter from "../EventsCenter";
 import score from "../Stores";
 import { Position } from "./Types/Position";
 
-export default class Terrain {
+export default class Terrain extends Phaser.GameObjects.Image {
     discoveryXp: number;
     position: Position;
     type: ResourceType;
     resourceRatio: number;
     //TODO: ressource, various ratios, etc.
 
-    constructor(position: Position)
+    constructor(scene: Phaser.Scene, position: Position)
     {
+        let randomType = randomEnumKey(ResourceType);
+
+        super(scene, position.x, position.y, randomType.valueOf())
+
         this.position = position;
         this.discoveryXp = 0;
-        this.type = randomEnumKey(ResourceType);
+        this.type = randomType;
         this.resourceRatio = 0;
     }
 

@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { ResourceType } from '~/game';
 
 export default class Preloader extends Phaser.Scene
 {
@@ -10,6 +11,13 @@ export default class Preloader extends Phaser.Scene
     preload()
     {
         this.load.image('board', 'images/boardgame.png');
+
+        // Score
+        this.load.image(ResourceType.FOOD, 'images/food.png');
+        this.load.image(ResourceType.WOOD, 'images/wood.png');
+        this.load.image(ResourceType.STONE, 'images/stone.png');
+        this.load.image(ResourceType.GOLD, 'images/gold.png');
+
         this.load.spritesheet('player', 'images/bunny.png', {
             frameWidth: 72,
         });

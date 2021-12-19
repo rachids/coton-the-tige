@@ -1,10 +1,13 @@
 import Phaser from "phaser";
 import eventsCenter from "~/app/EventsCenter";
 import score from "~/app/Stores";
+import { ResourceType } from "~/game";
 
 export default class ScoreScene extends Phaser.Scene
 {
-    label: Phaser.GameObjects.Text;
+    scoreFood: Phaser.GameObjects.Text;
+    scoreWood: Phaser.GameObjects.Text;
+    scoreStone: Phaser.GameObjects.Text;
 
     constructor()
     {
@@ -13,20 +16,27 @@ export default class ScoreScene extends Phaser.Scene
 
     create()
     {
-        this.label = this.add.text(40, 520, '', {
+        this.add.image(55, 540, ResourceType.FOOD)
+        this.add.image(155, 540, ResourceType.WOOD)
+        this.add.image(255, 540, ResourceType.STONE)
+
+        let fontConfig = {
             fontFamily: 'Arial, serif',
             fontSize: '24px',
             color: '#83BCFF',
-        });
-        this.label.setText('Food: 0 - Wood: 0 - Stone: 0');
+        };
+
+        this.scoreFood = this.add.text(100, 520, '', fontConfig);
+        this.scoreWood = this.add.text(200, 520, '', fontConfig);
+        this.scoreStone = this.add.text(300, 520, '', fontConfig);
 
         eventsCenter.on('UPDATE_SCORE', this.updateScore, this);
     }
 
     updateScore()
     {
-        this.label.setText(
-            `Food: ${score.food} - Wood: ${score.wood} - Stone: ${score.stone}`
-        );
+        this.scoreFood.text = score.food.toString();
+        this.scoreWood.text = score.wood.toString();
+        this.scoreStone.text = score.stone.toString();
     }
 }
