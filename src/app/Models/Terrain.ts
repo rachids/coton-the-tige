@@ -24,8 +24,10 @@ export default class Terrain extends Phaser.GameObjects.Image {
         this.resourceRatio = 0;
     }
 
-    onLanding(value: number = 1)
+    onLanding()
     {
+        let value = score.lastDiceValue;
+
         this.inscreaseDiscovery(value);
 
         switch (ResourceType[this.type]) {

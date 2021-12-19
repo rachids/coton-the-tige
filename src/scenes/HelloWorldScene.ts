@@ -4,14 +4,12 @@ import Player from '~/app/Models/Player';
 import { CasePosition } from '~/app/Models/CasePosition';
 import getLandingCase from '~/app/Models/CasePosition';
 import Terrain from '~/app/Models/Terrain';
-import { ResourceType } from "~/game";
 import eventsCenter from '~/app/EventsCenter';
-import ScoreScene from './UI/ScoreScene';
 import score from '~/app/Stores';
 export default class HelloWorldScene extends Phaser.Scene
 {
-    dice: GameDice;
-    player: Player;
+    dice!: GameDice;
+    player!: Player;
     terrains: Terrain[];
 
 	constructor()
@@ -50,6 +48,8 @@ export default class HelloWorldScene extends Phaser.Scene
 
     handleDiceRolled(dice: GameDice)
     {
+        score.lastDiceValue = dice.currentValue;
+
         let landingCase = getLandingCase(this.player.position.caseNumber, dice.currentValue);
 
         this.player.updateTerrain(this.terrains[landingCase]);

@@ -27,6 +27,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     updateTerrain(destination: Terrain)
     {
+        this.increaseXp(score.lastDiceValue);
         this.currentTerrain = destination;
 
         eventsCenter.emit('PLAYER_SWITCHED_TERRAIN', destination);

@@ -11,6 +11,7 @@ const score = {
     energy: 0,
     turn: 0,
     hasLeftStartOfBoard: false,
+    lastDiceValue:0,
 };
 
 export default score;
