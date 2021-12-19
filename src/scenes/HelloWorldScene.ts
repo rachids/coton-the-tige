@@ -7,9 +7,9 @@ import Terrain from '~/app/Models/Terrain';
 import { ResourceType } from "~/game";
 import eventsCenter from '~/app/EventsCenter';
 import ScoreScene from './UI/ScoreScene';
+import score from '~/app/Stores';
 export default class HelloWorldScene extends Phaser.Scene
 {
-    text: Phaser.GameObjects.Text;
     dice: GameDice;
     player: Player;
     terrains: Terrain[];
@@ -41,21 +41,11 @@ export default class HelloWorldScene extends Phaser.Scene
             )
         }
 
-        
-        this.text = this.add.text(600, 100, "Pos", {
-            fontFamily: 'Arial, serif',
-            fontSize: '24px',
-            color: '#83BCFF',
-        });
-
         this.dice = new GameDice(this, 560, 90);
 
         this.player = new Player(this, this.terrains[0]);
-    }
 
-    update()
-    {
-
+        eventsCenter.on('NEW_TURN', this.player.restoreEnergy, this);
     }
 
     handleDiceRolled(dice: GameDice)
@@ -63,12 +53,20 @@ export default class HelloWorldScene extends Phaser.Scene
         let landingCase = getLandingCase(this.player.position.caseNumber, dice.currentValue);
 
         this.player.updateTerrain(this.terrains[landingCase]);
-        this.text.text = ResourceType[this.terrains[landingCase].type];
     }
 
     handleTerrainSwitch(terrain: Terrain)
     {
+        if ( terrain.position.caseNumber > 6) {
+            score.hasLeftStartOfBoard = true;
+        }
+
+        if ( terrain.position.caseNumber <= 6 && score.hasLeftStartOfBoard) {
+            score.turn++;
+            score.hasLeftStartOfBoard = false;
+            eventsCenter.emit('NEW_TURN');
+        }
+
         terrain.onLanding();
-        
     }
 }

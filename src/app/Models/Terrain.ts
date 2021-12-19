@@ -1,6 +1,7 @@
 import { ResourceType } from "~/game";
 import { randomEnumKey } from "~/utils/utils";
 import eventsCenter from "../EventsCenter";
+import ratios from "../Ratios";
 import score from "../Stores";
 import { Position } from "./Types/Position";
 
@@ -23,19 +24,22 @@ export default class Terrain extends Phaser.GameObjects.Image {
         this.resourceRatio = 0;
     }
 
-    onLanding()
+    onLanding(value: number = 1)
     {
-        this.inscreaseDiscovery();
+        this.inscreaseDiscovery(value);
 
         switch (ResourceType[this.type]) {
             case ResourceType.FOOD:
-                score.food++;
+                score.food += value * ratios.FOOD;
                 break;
             case ResourceType.WOOD:
-                score.wood++;
+                score.wood += value * ratios.WOOD;
                 break;
             case ResourceType.STONE:
-                score.stone++;
+                score.stone += value * ratios.STONE;
+                break;
+            case ResourceType.GOLD:
+                score.gold += value * ratios.GOLD;
                 break;
 
             default:
@@ -45,8 +49,8 @@ export default class Terrain extends Phaser.GameObjects.Image {
         eventsCenter.emit('UPDATE_SCORE');
     }
 
-    inscreaseDiscovery()
+    inscreaseDiscovery(value: number)
     {
-        this.discoveryXp++;
+        this.discoveryXp += value * ratios.DISCOVERY_XP;
     }
 }

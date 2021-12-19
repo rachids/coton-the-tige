@@ -13,7 +13,6 @@ export default class Dice
 
     throw(): number
     {
-        return 1;
-        //return Phaser.Math.Between(this.min, this.max);
+        return Phaser.Math.Between(this.min, this.max);
     }
 }
