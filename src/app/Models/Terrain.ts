@@ -25,6 +25,8 @@ export default class Terrain extends Phaser.GameObjects.Image {
 
     onLanding()
     {
+        this.inscreaseDiscovery();
+
         switch (ResourceType[this.type]) {
             case ResourceType.FOOD:
                 score.food++;
@@ -41,5 +43,10 @@ export default class Terrain extends Phaser.GameObjects.Image {
         }
 
         eventsCenter.emit('UPDATE_SCORE');
+    }
+
+    inscreaseDiscovery()
+    {
+        this.discoveryXp++;
     }
 }

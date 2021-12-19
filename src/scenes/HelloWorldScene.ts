@@ -32,6 +32,7 @@ export default class HelloWorldScene extends Phaser.Scene
         this.data.set('stone', 0);
 
         this.scene.run('score-scene');
+        this.scene.run('current-terrain-infos');
 
         // Instancier les terrains
         for(let i=0; i<16; i++) {

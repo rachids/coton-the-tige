@@ -3,6 +3,7 @@ import Preloader from './scenes/Preloader';
 
 import HelloWorldScene from './scenes/HelloWorldScene'
 import ScoreScene from './scenes/UI/ScoreScene';
+import CurrentTerrainInfos from './scenes/UI/CurrentTerrain';
 
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
@@ -15,7 +16,10 @@ const config: Phaser.Types.Core.GameConfig = {
 	scene: [
 		Preloader,
 		HelloWorldScene,
+
+		// UI
 		ScoreScene,
+		CurrentTerrainInfos,
 	]
 }
 
