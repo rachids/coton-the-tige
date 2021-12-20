@@ -1,5 +1,5 @@
 import AbstractServiceProducer from "~/app/Contracts";
-import score from "../../Stores";
+import score from "~/app/Stores";
 
 export default class WoodProducer extends AbstractServiceProducer
 {

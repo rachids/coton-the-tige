@@ -1,7 +1,7 @@
 import AbstractServiceProducer from "~/app/Contracts";
-import score from "../../Stores";
+import score from "~/app/Stores";
 
-export class GoldProducer extends AbstractServiceProducer
+export default class GoldProducer extends AbstractServiceProducer
 {
     generateResource(amount: number)
     {

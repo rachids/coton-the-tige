@@ -1,14 +1,17 @@
 import Phaser from "phaser";
+import BadgeLabel from "phaser3-rex-plugins/templates/ui/badgelabel/BadgeLabel";
 import eventsCenter from "~/app/EventsCenter";
 import score from "~/app/Stores";
 import { ResourceType } from "~/game";
+import colors from "~/utils/Colors";
+import Fonts from "~/utils/Fonts";
 
 export default class ScoreScene extends Phaser.Scene
 {
-    scoreMoney: Phaser.GameObjects.Text;
-    scoreFood: Phaser.GameObjects.Text;
-    scoreWood: Phaser.GameObjects.Text;
-    scoreStone: Phaser.GameObjects.Text;
+    scoreFood: BadgeLabel;
+    scoreWood: BadgeLabel;
+    scoreStone: BadgeLabel;
+    scoreGold: BadgeLabel;
     energy: Phaser.GameObjects.Text;
 
     constructor()
@@ -23,34 +26,73 @@ export default class ScoreScene extends Phaser.Scene
         this.add.image(355, 540, ResourceType.STONE)
 
         let fontConfig = {
-            fontFamily: 'Arial, serif',
-            fontSize: '24px',
-            color: '#83BCFF',
+            color: colors.convertColorToString(colors.OLD_BURGUNDY),
+            align: 'center',
+            backgroundColor: colors.convertColorToString(colors.LAVENDER_GRAY),
+            padding: { left: 2, right: 2, top: 1, bottom: 1 },
+            fontSize: '16px',
+            fontFamily: Fonts.forStats,
         };
 
-        this.scoreMoney = this.add.text(55, 530, '$', fontConfig);
-        this.scoreFood = this.add.text(200, 520, '', fontConfig);
-        this.scoreWood = this.add.text(300, 520, '', fontConfig);
-        this.scoreStone = this.add.text(400, 520, '', fontConfig);
+        this.scoreFood = this.rexUI.add.badgeLabel({
+            x: 160,
+            y: 150,
+            width: 48,
+            height: 48,
+            background: this.add.image(0, 0, ResourceType.FOOD),
+            centerBottom: this.add.text(0, 0, '', fontConfig),
+        }).layout()
 
-        this.energy = this.add.text(600, 100, `Energy: ${score.energy}/${score.energyMax}`, {
+        this.scoreWood = this.rexUI.add.badgeLabel({
+            x: 210,
+            y: 150,
+            width: 48,
+            height: 48,
+            background: this.add.image(0, 0, ResourceType.WOOD),
+            centerBottom: this.add.text(0, 0, '', fontConfig),
+        }).layout();
+
+        this.scoreStone = this.rexUI.add.badgeLabel({
+            x: 260,
+            y: 150,
+            width: 48,
+            height: 48,
+            background: this.add.image(0, 0, ResourceType.STONE),
+            centerBottom: this.add.text(0, 0, '', fontConfig),
+        }).layout();
+
+        this.scoreGold = this.rexUI.add.badgeLabel({
+            x: 310,
+            y: 150,
+            width: 48,
+            height: 48,
+            background: this.add.image(0, 0, ResourceType.GOLD),
+            centerBottom: this.add.text(0, 0, '', fontConfig),
+        }).layout();
+
+        /*this.energy = this.add.text(600, 100, `Energy: ${score.energy}/${score.energyMax}`, {
             fontFamily: 'Arial, serif',
             fontSize: '24px',
             color: '#83BCFF',
-        });
-
-        eventsCenter.on('UPDATE_SCORE', this.updateScore, this);
+        });*/
     }
 
-    updateScore()
+    update()
     {
-        this.scoreMoney.setText([
-            `$ ${score.money}`,
-            `Gold: ${score.gold.toFixed(4)}`,
-        ]);
-        this.scoreFood.text = score.food.toFixed(0);
-        this.scoreWood.text = score.wood.toFixed(0);
-        this.scoreStone.text = score.stone.toFixed(0);
-        this.energy.text = `Energy: ${score.energy}/${score.energyMax} (${score.turn})`;
+        this.scoreFood.getElement('centerBottom').setText(score.food.toFixed(0));
+        this.scoreFood.layout();
+        
+        this.scoreWood.getElement('centerBottom').setText(score.wood.toFixed(0));
+        this.scoreWood.layout();
+        
+        this.scoreStone.getElement('centerBottom').setText(score.stone.toFixed(0));
+        this.scoreStone.layout();
+        
+        this.scoreGold.getElement('centerBottom').setText(score.gold.toFixed(1));
+        this.scoreGold.layout();
+
+        //this.scoreWood.text = score.wood.toFixed(0);
+        //this.scoreStone.text = score.stone.toFixed(0);
+        //this.energy.text = `Energy: ${score.energy}/${score.energyMax} (${score.turn})`;
     }
 }

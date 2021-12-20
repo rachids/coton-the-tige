@@ -11,7 +11,9 @@ const score = {
     energy: 0,
     turn: 0,
     hasLeftStartOfBoard: false,
-    lastDiceValue:0,
+    lastDiceValue: 0,
+    currentGoldTile: 0,
+    maxGoldTile: gameConfig.MAX_STARTING_GOLD,
 };
 
 export default score;

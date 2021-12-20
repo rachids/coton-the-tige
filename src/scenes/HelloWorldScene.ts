@@ -24,11 +24,6 @@ export default class HelloWorldScene extends Phaser.Scene
         eventsCenter.on('PLAYER_SWITCHED_TERRAIN', this.handleTerrainSwitch, this);
         this.add.image(400, 300, 'board');
 
-        // Score
-        this.data.set('wood', 0);
-        this.data.set('food', 0);
-        this.data.set('stone', 0);
-
         this.scene.run('score-scene');
         this.scene.run('current-terrain-infos');
 
