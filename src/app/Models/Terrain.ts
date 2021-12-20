@@ -5,15 +5,10 @@ import ratios from "../Ratios";
 import score from "../Stores";
 import { Position } from "./Types/Position";
 import FoodProducer from "../Services/Resources/FoodProducer";
-import NumberBar from "phaser3-rex-plugins/templates/ui/numberbar/NumberBar";
 import WoodProducer from "../Services/Resources/WoodProducer";
 import StoneProducer from "../Services/Resources/StoneProducer";
 import { GoldProducer } from "../Services/Resources/GoldProducer";
 import AbstractServiceProducer from "../Contracts";
-
-const COLOR_PRIMARY = 0x4e342e;
-const COLOR_LIGHT = 0x7b5e57;
-const COLOR_DARK = 0x260e04;
 
 export default class Terrain extends Phaser.GameObjects.Image {
     discoveryXp: number;
@@ -21,7 +16,6 @@ export default class Terrain extends Phaser.GameObjects.Image {
     type: ResourceType;
     resourceRatio: number;
     currentProductionValue: number;
-    productionProgressBar: NumberBar;
 
     constructor(scene: Phaser.Scene, position: Position)
     {
@@ -35,38 +29,10 @@ export default class Terrain extends Phaser.GameObjects.Image {
         this.resourceRatio = 0;
         this.currentProductionValue = 0;
 
-        this.productionProgressBar = scene.rexUI.add.numberBar({
-            x: position.x,
-            y: position.y - 64,
-            width: 94, // Fixed width
+        const progressBarConfig = {
             height: 24,
-
-            background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 10, COLOR_DARK),
-
-            slider: {
-                // width: 120, // Fixed width
-                track: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 10, COLOR_PRIMARY),
-                indicator: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 10, COLOR_LIGHT),
-                input: 'none',
-            },
-
-            space: {
-                left: 2,
-                right: 2,
-                top: 2,
-                bottom: 2,
-
-                icon: 2,
-                slider: 2,
-            },
-
-            valuechangeCallback: function (value, oldValue, numberBar) {
-                numberBar.text = Math.round(Phaser.Math.Linear(0, 100, value));
-            },
-        })
-            .layout();
-
-        this.productionProgressBar.setValue(this.currentProductionValue, 0, 100);
+            width: 260,
+        };
     }
 
     onLanding()
@@ -94,8 +60,6 @@ export default class Terrain extends Phaser.GameObjects.Image {
         }
 
         console.log('PRODUCED ' + this.type, this.currentProductionValue);
-
-        this.productionProgressBar.setValue(this.currentProductionValue / 100);
 
         if (this.currentProductionValue >= 100) {
             this.triggerProduction();
@@ -128,13 +92,10 @@ export default class Terrain extends Phaser.GameObjects.Image {
     }
 
     triggerProduction()
-    {
-        this.productionProgressBar.setValue(0, 0, 100);
-        
+    {      
         let producer: AbstractServiceProducer = this.getServiceProducer();
         let reminder = producer.produce(this.currentProductionValue);
 
         this.currentProductionValue = reminder;
-        this.productionProgressBar.setValue(this.currentProductionValue / 100);
     }
 }
