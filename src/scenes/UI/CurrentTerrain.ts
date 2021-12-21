@@ -60,8 +60,6 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
 
             buttons: [
                 ButtonAction.create(this, 'Conquest This Land', () => { this.scene.run('building', { terrain: this.currentTerrain }); }),
-                //ButtonAction.create(this, 'Collecter'),
-                //ButtonAction.create(this, 'Démolir'),
             ],
 
             click: {
@@ -83,6 +81,12 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
         });
 
         eventsCenter.on('PLAYER_SWITCHED_TERRAIN', this.updateTerrain, this);
+    }
+
+    update(): void {
+        if (this.currentTerrain != undefined) {
+            this.refreshInfos();
+        }
     }
 
     refreshInfos()

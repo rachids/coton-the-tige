@@ -15,6 +15,7 @@ import GoldManager from "../Services/Resources/Managers/GoldManager";
 import Notify from "~/utils/Notify";
 import Conquest from "./Conquests/Conquest";
 import LevelZero from "./Conquests/LevelZero";
+import Fonts from "~/utils/Fonts";
 
 export default class Terrain extends Phaser.GameObjects.Image {
     discoveryXp: number;
@@ -32,7 +33,7 @@ export default class Terrain extends Phaser.GameObjects.Image {
     unlockedProduction: boolean;
     
     // Labels
-    labelDiscoveryLevel: Phaser.GameObjects.Text;
+    labelConquestLevel: Phaser.GameObjects.Text;
 
     constructor(scene: Phaser.Scene, position: Position)
     {
@@ -53,14 +54,15 @@ export default class Terrain extends Phaser.GameObjects.Image {
         this.unlockedProduction = false;
         this.conquestLevel = new LevelZero(this);
 
-        this.labelDiscoveryLevel = scene.add.text(position.x - 45, position.y - 75, this.discoveryLevel.toString(), {
+        this.labelConquestLevel = scene.add.text(position.x - 45, position.y - 75, '', {
             color: colors.convertColorToString(colors.CARRIBEAN_GREEN),
             align: 'center',
             backgroundColor: '#000',
             padding: { left: 2, right: 2, top: 1, bottom: 1 },
             fontSize: '16px',
-            fontFamily: '',
+            fontFamily: Fonts.forStats,
         });
+        this.updateConquestLabel();
 
         this.resourceImage = scene.add.image(position.x, position.y - 50, ResourceType[this.type]).setScale(0.3).setVisible(false);
     }
@@ -124,9 +126,7 @@ export default class Terrain extends Phaser.GameObjects.Image {
         if (this.discoveryXp >= this.discoveryNextLevelXp) {
             this.discoveryLevel++;
             this.discoveryNextLevelXp = Leveling.getNextLevel(this.discoveryLevel);
-
-            this.labelDiscoveryLevel.text = this.discoveryLevel.toString();
-
+            
             return true;
         }
 
@@ -167,5 +167,10 @@ export default class Terrain extends Phaser.GameObjects.Image {
     canProduce(): boolean
     {
         return this.canSeeResource() && this.unlockedProduction;
+    }
+
+    updateConquestLabel()
+    {
+        this.labelConquestLevel.text = this.conquestLevel.level.toString();
     }
 }

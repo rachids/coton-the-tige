@@ -16,6 +16,7 @@ export default class Preloader extends Phaser.Scene
         this.load.image('buttonNormal', 'images/button_normal.png');
         this.load.image('buttonPressed', 'images/button_pressed.png');
         this.load.image('closeBtn', 'images/box_cross.png');
+        this.load.image('nextPage', 'images/next_page.png');
 
         // Ressources
         this.load.image(ResourceType.FOOD, 'images/food.png');

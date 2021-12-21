@@ -1,4 +1,4 @@
-import BonusManager from "~/app/Services/Bonuses/BonusManager";
+import Bonus from "~/app/Services/Bonuses/BonusManager";
 import ResourceHelper from "~/app/Services/Resources/ResourceHelper";
 import Terrain from "../Terrain";
 
@@ -9,7 +9,9 @@ export default abstract class Conquest
     buildingCost: CostType
     description: string;
     bonusesDescription: string[];
-    bonuses: BonusManager[] = [];
+    bonuses: Bonus[] = [];
+    costs: Bonus[] = [];
+    costsDescription: string[] = [];
     field: Terrain;
 
     constructor(field: Terrain)
@@ -22,7 +24,20 @@ export default abstract class Conquest
         this.bonusesDescription = [];
     }
 
-    abstract onBuild(): void
+    onBuild(): void 
+    {
+        if (this.canBuild()) {
+            // Execute costs
+            this.costs.forEach(cost => cost.execute());
+
+            // Execute bonuses
+            this.bonuses.forEach(bonus => bonus.execute());
+
+            // Field has new level!
+            this.field.conquestLevel = this.getNextLevel();
+            this.field.updateConquestLabel();
+        }
+    }
 
     abstract getNextLevel(): Conquest;
 
@@ -31,12 +46,12 @@ export default abstract class Conquest
         this.description = text;
     }
 
-    setBonuses(bonuses: BonusManager[])
+    setBonuses(bonuses: Bonus[])
     {
         this.bonuses = bonuses;
     }
 
-    addBonuses(bonus: BonusManager)
+    addBonuses(bonus: Bonus)
     {
         this.bonuses.push(bonus);
     }
@@ -49,11 +64,6 @@ export default abstract class Conquest
     addBonusesDescription(bonus: string)
     {
         this.bonusesDescription.push(bonus);
-    }
-
-    cost(ratio: number = 1): number
-    {
-        return 1;
     }
 
     canBuild(): boolean
@@ -69,17 +79,6 @@ export default abstract class Conquest
         }
 
         return true;
-    }
-
-    canUpgrade(): boolean
-    {
-        // Todo
-        return false;
-    }
-
-    build()
-    {
-        
     }
 
     isActive(currentLevel: number): boolean

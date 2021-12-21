@@ -43,7 +43,6 @@ export default class HelloWorldScene extends Phaser.Scene
 
         this.scene.run('score-scene');
         this.scene.run('notification');
-        this.scene.run('current-terrain-infos', this.player.currentTerrain);
 
         eventsCenter.on('NEW_TURN', this.player.restoreEnergy, this);
     }
@@ -53,6 +52,8 @@ export default class HelloWorldScene extends Phaser.Scene
         score.lastDiceValue = dice.currentValue;
 
         let landingCase = getLandingCase(this.player.position.caseNumber, dice.currentValue);
+
+        this.scene.run('current-terrain-infos', this.terrains[landingCase]);
 
         this.player.updateTerrain(this.terrains[landingCase]);
     }

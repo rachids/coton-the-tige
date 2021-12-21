@@ -1,5 +1,5 @@
 interface Bonus {
-    execute(amount: number): void;
+    execute(): void;
 }
 
 export default Bonus;
