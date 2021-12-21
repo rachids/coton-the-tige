@@ -1,6 +1,6 @@
-import { Position } from "./Types/Position";
+import { CasePosition as CasePositionType, Position } from "./Types/Position";
 
-export const CasePosition: Position[] = [
+export const CasePosition: CasePositionType[] = [
     {
         caseNumber: 1,
         x: 75,

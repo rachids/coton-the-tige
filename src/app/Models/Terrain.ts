@@ -2,30 +2,34 @@ import { ResourceType } from "~/game";
 import eventsCenter from "../EventsCenter";
 import ratios from "../Ratios";
 import score from "../Stores";
-import { Position } from "./Types/Position";
-import FoodProducer from "../Services/Resources/Producers/FoodProducer";
-import WoodProducer from "../Services/Resources/Producers/WoodProducer";
-import StoneProducer from "../Services/Resources/Producers/StoneProducer";
-import GoldProducer from "../Services/Resources/Producers/GoldProducer";
-import AbstractServiceProducer from "../Services/Resources/Contracts";
+import { CasePosition, Position } from "./Types/Position";
 import generateRandomResource from "../Services/Resources/RandomResourceGenerator";
 import Leveling from "~/utils/Leveling";
 import colors from "~/utils/Colors";
 import ResourceProducer from "../Services/Resources/ResourceProducer";
-import AbstractResourceManager from "../Services/Resources/AbstractResourceManager";
+import AbstractResourceManager from "../Services/AbstractStatManager";
 import FoodManager from "../Services/Resources/Managers/FoodManager";
+import StoneManager from "../Services/Resources/Managers/StoneManager";
+import WoodManager from "../Services/Resources/Managers/WoodManager";
+import GoldManager from "../Services/Resources/Managers/GoldManager";
+import Notify from "~/utils/Notify";
+import Conquest from "./Conquests/Conquest";
+import LevelZero from "./Conquests/LevelZero";
 
 export default class Terrain extends Phaser.GameObjects.Image {
     discoveryXp: number;
     discoveryLevel: number;
     discoveryNextLevelXp: number;
-    position: Position;
+    position: CasePosition;
     type: ResourceType;
     resourceRatio: number;
+    discoveryRatio: number;
     currentProductionValue: number;
     resourceImage: Phaser.GameObjects.Image;
     amountLanded: integer;
     producer: ResourceProducer;
+    conquestLevel: Conquest;
+    unlockedProduction: boolean;
     
     // Labels
     labelDiscoveryLevel: Phaser.GameObjects.Text;
@@ -41,10 +45,13 @@ export default class Terrain extends Phaser.GameObjects.Image {
         this.discoveryLevel = 0;
         this.discoveryNextLevelXp = Leveling.getNextLevel(this.discoveryLevel);
         this.type = randomType;
-        this.resourceRatio = 0;
+        this.resourceRatio = 1;
+        this.discoveryRatio = 1;
         this.currentProductionValue = 0;
         this.amountLanded = 0;
         this.producer = this.generateProducer();
+        this.unlockedProduction = false;
+        this.conquestLevel = new LevelZero(this);
 
         this.labelDiscoveryLevel = scene.add.text(position.x - 45, position.y - 75, this.discoveryLevel.toString(), {
             color: colors.convertColorToString(colors.CARRIBEAN_GREEN),
@@ -71,9 +78,11 @@ export default class Terrain extends Phaser.GameObjects.Image {
 
         this.inscreaseDiscovery(value);
 
-        if (this.discoveryLevel > 0) {
+        if (this.canSeeResource()) {
             this.resourceImage.setVisible(true);
+        }
 
+        if (this.canProduce()) {
             switch (ResourceType[this.type]) {
                 case ResourceType.FOOD:
                     this.currentProductionValue += value * ratios.FOOD;
@@ -126,17 +135,15 @@ export default class Terrain extends Phaser.GameObjects.Image {
 
     getResourceManager(): AbstractResourceManager
     {
-        return new FoodManager();
-
         switch (ResourceType[this.type]) {
             case ResourceType.FOOD:
                 return new FoodManager
             case ResourceType.WOOD:
-                throw new Error('jai pas encore fait le boulot')
+                return new WoodManager
             case ResourceType.STONE:
-                throw new Error('jai pas encore fait le boulot')
+                return new StoneManager
             case ResourceType.GOLD:
-                throw new Error('jai pas encore fait le boulot')
+                return new GoldManager
 
             default:
                 throw new Error('jai pas encore fait le boulot')
@@ -145,8 +152,20 @@ export default class Terrain extends Phaser.GameObjects.Image {
 
     triggerProduction()
     {
-        let reminder = this.producer.produce(this.currentProductionValue);
+        let { amount, surplus } = this.producer.produce(this.currentProductionValue);
 
-        this.currentProductionValue = reminder;
+        this.currentProductionValue = surplus;
+
+        Notify.sendMessage(`+ ${amount} ${this.type}`, this.position);
+    }
+
+    canSeeResource(): boolean
+    {
+        return this.discoveryLevel > 0;
+    }
+
+    canProduce(): boolean
+    {
+        return this.canSeeResource() && this.unlockedProduction;
     }
 }

@@ -50,16 +50,16 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
             width: 246,
         };
 
-        this.productionLabel = this.add.text(535, 220, 'Production:', fontDetailsConfig);
+        this.productionLabel = this.add.text(535, 220, 'Production:', fontDetailsConfig).setVisible(false);
 
-        this.productionProgressBar = new ProgressBar(this, 662, 260, progressBarConfig).numberBarObject.layout();
+        this.productionProgressBar = new ProgressBar(this, 662, 260, progressBarConfig).numberBarObject.layout().setVisible(false);
 
         this.actionButtons = this.rexUI.add.buttons({
             x: 640, y: 380,
             orientation: 'y',
 
             buttons: [
-                ButtonAction.create(this, 'Construire', () => { this.scene.run('building', { terrain: this.currentTerrain }); }),
+                ButtonAction.create(this, 'Conquest This Land', () => { this.scene.run('building', { terrain: this.currentTerrain }); }),
                 //ButtonAction.create(this, 'Collecter'),
                 //ButtonAction.create(this, 'Démolir'),
             ],
@@ -87,10 +87,16 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
 
     refreshInfos()
     {
-        if (this.currentTerrain.discoveryLevel > 0) {
-            this.productionLabel.setVisible(true);
-            this.productionProgressBar.setVisible(true);
+        if (this.currentTerrain.canSeeResource()) {
             this.actionButtons.setVisible(true);
+
+            if (this.currentTerrain.canProduce()) {
+                this.productionLabel.setVisible(true);
+                this.productionProgressBar.setVisible(true);
+                this.productionLabel.text = `Production: ${this.currentTerrain.currentProductionValue.toFixed(2)}%`
+                this.productionProgressBar.setValue(this.currentTerrain.currentProductionValue, 0, 100);
+            }
+            
         } else {
             this.productionLabel.setVisible(false);
             this.productionProgressBar.setVisible(false);
@@ -98,8 +104,6 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
         }
 
         this.discoveryXp.text = `Discovery: ${this.currentTerrain.discoveryLevel} (${this.currentTerrain.discoveryXp}/${this.currentTerrain.discoveryNextLevelXp})`;
-        this.productionLabel.text = `Production: ${this.currentTerrain.currentProductionValue.toFixed(2)}%`
-        this.productionProgressBar.setValue(this.currentTerrain.currentProductionValue, 0, 100);
     }
 
     updateTerrain(terrain: Terrain)

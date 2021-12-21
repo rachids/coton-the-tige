@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import eventsCenter from "~/app/EventsCenter";
 import score from "~/app/Stores";
+import gameConfig from "~/game";
 import Dice from "~/utils/Dice";
 
 const DiceSprite = [1,2,5,6,4,0,];
@@ -25,11 +26,14 @@ export default class GameDice extends Phaser.GameObjects.Sprite {
 
     roll()
     {
-        if (this.scene.player.isMoving) {
-            return;
+        if (! gameConfig.COTON_DEBUG) {
+            if (this.scene.player.isMoving) {
+                return;
+            }
+    
+            this.scene.player.isMoving = true;
         }
 
-        this.scene.player.isMoving = true;
 
         /* TODO: animation à revoir
 

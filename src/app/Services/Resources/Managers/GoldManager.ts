@@ -1,13 +1,13 @@
 import score from "~/app/Stores";
 import AbstractStatManager from "../../AbstractStatManager";
 
-export default class FoodManager extends AbstractStatManager
+export default class GoldManager extends AbstractStatManager
 {
     add(value: number): void {
-        score.food += this.validateTooMuch(value);
+        score.gold += this.validateTooMuch(value);
     }
-
     remove(value: number): void {
-        score.food -= this.validateTooLittle(value);
+        score.gold -= this.validateTooLittle(value);
     }
+    
 }

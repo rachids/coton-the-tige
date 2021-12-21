@@ -42,6 +42,7 @@ export default class HelloWorldScene extends Phaser.Scene
         this.player = new Player(this, this.terrains[0]);
 
         this.scene.run('score-scene');
+        this.scene.run('notification');
         this.scene.run('current-terrain-infos', this.player.currentTerrain);
 
         eventsCenter.on('NEW_TURN', this.player.restoreEnergy, this);

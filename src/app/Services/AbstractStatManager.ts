@@ -1,4 +1,4 @@
-export default abstract class AbstractResourceManager {
+export default abstract class AbstractStatManager {
     min: number = 0;
     max: number = 999999;
 

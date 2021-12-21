@@ -1,4 +1,4 @@
-import AbstractResourceManager from "./AbstractResourceManager";
+import AbstractResourceManager from "../AbstractStatManager";
 
 export default class ResourceProducer {
     canHaveSurplus: boolean;
@@ -14,10 +14,10 @@ export default class ResourceProducer {
         this.ratio = value;
     }
 
-    produce(value: number): number {
+    produce(value: number): { amount: number, surplus: number} {
         let surplus: number = 0;
         if (value < 100) {
-            return value;
+            return {amount: 0, surplus: 0};
         }
 
         let amount = value / 100;
@@ -28,7 +28,7 @@ export default class ResourceProducer {
             surplus = value % 100;
         }
 
-        return surplus;
+        return {amount, surplus};
     }
 
     generateResource(amount: number) {
