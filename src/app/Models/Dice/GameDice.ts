@@ -25,11 +25,11 @@ export default class GameDice extends Phaser.GameObjects.Sprite {
 
     roll()
     {
-        if (score.isPlayerMoving) {
+        if (this.scene.player.isMoving) {
             return;
         }
 
-        score.isPlayerMoving = true;
+        this.scene.player.isMoving = true;
 
         /* TODO: animation à revoir
 

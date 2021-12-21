@@ -14,6 +14,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     currentTerrain: Terrain;
     currentXp: number;
     spotlight: Phaser.GameObjects.Light;
+    isMoving: boolean = false;
 
     constructor(scene: Phaser.Scene, terrain: Terrain) {
         super(scene, terrain.position.x, terrain.position.y, 'player');
@@ -46,7 +47,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
             ease: Phaser.Math.Easing.Sine.Out,
             x: destination.x,
             y: destination.y,
-            onComplete: () => score.isPlayerMoving = false,
+            onComplete: () => this.isMoving = false,
         });
         this.anims.play('player-action');
     }

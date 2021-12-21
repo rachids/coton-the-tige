@@ -1,11 +1,6 @@
 import AbstractResourceManager from "./AbstractResourceManager";
 
-interface ServiceProducer {
-    produce(value: number): number;
-    generateResource(amount: number): void;
-}
-
-export default abstract class AbstractServiceProducer implements ServiceProducer {
+export default class ResourceProducer {
     canHaveSurplus: boolean;
     ratio: number = 1;
     manager: AbstractResourceManager;

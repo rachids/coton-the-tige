@@ -7,7 +7,6 @@ import Terrain from '~/app/Models/Terrain';
 import eventsCenter from '~/app/EventsCenter';
 import score from '~/app/Stores';
 import colors from '~/utils/Colors';
-import ProductionCenter from '~/app/Models/Buildings/ProductionCenter';
 export default class HelloWorldScene extends Phaser.Scene
 {
     dice!: GameDice;

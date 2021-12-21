@@ -1,7 +1,7 @@
 import score from "~/app/Stores";
-import AbstractManager from "../AbstractManager";
+import AbstractResourceManager from "../AbstractResourceManager";
 
-export default class FoodManager extends AbstractManager
+export default class FoodManager extends AbstractResourceManager
 {
     add(value: number): void {
         score.food += this.validateTooMuch(value);

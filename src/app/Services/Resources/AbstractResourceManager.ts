@@ -1,7 +1,7 @@
-export default abstract class AbstractManager {
+export default abstract class AbstractResourceManager {
     min: number = 0;
     max: number = 999999;
-    
+
     abstract add(value: number): void;
 
     abstract remove(value: number): void;
