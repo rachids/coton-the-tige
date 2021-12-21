@@ -6,6 +6,8 @@ import getLandingCase from '~/app/Models/CasePosition';
 import Terrain from '~/app/Models/Terrain';
 import eventsCenter from '~/app/EventsCenter';
 import score from '~/app/Stores';
+import colors from '~/utils/Colors';
+import ProductionCenter from '~/app/Models/Buildings/ProductionCenter';
 export default class HelloWorldScene extends Phaser.Scene
 {
     dice!: GameDice;
@@ -20,12 +22,14 @@ export default class HelloWorldScene extends Phaser.Scene
 
     create()
     {
+        this.lights.enable();
+        this.lights.setAmbientColor(colors.LAVENDER_GRAY);
+
         eventsCenter.on('dice-rolled', this.handleDiceRolled, this);
         eventsCenter.on('PLAYER_SWITCHED_TERRAIN', this.handleTerrainSwitch, this);
-        this.add.image(400, 300, 'board');
+        this.add.image(400, 300, 'board').setPipeline('Light2D').setAlpha(0.8);
 
-        this.scene.run('score-scene');
-        this.scene.run('current-terrain-infos');
+        this.lights.addLight(270, 260, 128, colors.TART_ORANGE, 3)
 
         // Instancier les terrains
         for(let i=0; i<16; i++) {
@@ -37,6 +41,9 @@ export default class HelloWorldScene extends Phaser.Scene
         this.dice = new GameDice(this, 560, 90);
 
         this.player = new Player(this, this.terrains[0]);
+
+        this.scene.run('score-scene');
+        this.scene.run('current-terrain-infos', this.player.currentTerrain);
 
         eventsCenter.on('NEW_TURN', this.player.restoreEnergy, this);
     }

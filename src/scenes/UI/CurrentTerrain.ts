@@ -1,7 +1,9 @@
 import Phaser from "phaser";
+import Label from "phaser3-rex-plugins/templates/ui/label/Label";
 import NumberBar from "phaser3-rex-plugins/templates/ui/numberbar/NumberBar";
 import eventsCenter from "~/app/EventsCenter";
 import Terrain from "~/app/Models/Terrain";
+import ButtonAction from "~/app/Services/UI/Button";
 import ProgressBar from "~/app/Services/UI/ProgressBar";
 import colors from "~/utils/Colors";
 import Fonts from "~/utils/Fonts";
@@ -13,12 +15,16 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
     productionLabel: Phaser.GameObjects.Text;
     productionProgressBar: NumberBar;
 
+    actionButtons;
+
     constructor() {
         super('current-terrain-infos');
     }
 
-    create()
+    create(data: object)
     {
+        this.currentTerrain = data.terrain;
+
         let panel = this.add.graphics();
 
         panel.fillStyle(colors.CARRIBEAN_GREEN, 0.75);
@@ -37,7 +43,7 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
         };
         
         this.add.text(600, 140, 'Current Field', fontConfig);
-        this.discoveryXp = this.add.text(535, 200, 'Discovery: 1 (0/0)', fontDetailsConfig);
+        this.discoveryXp = this.add.text(535, 200, 'Discovery: 0 (0/0)', fontDetailsConfig);
 
         const progressBarConfig = {
             height: 24,
@@ -48,6 +54,34 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
 
         this.productionProgressBar = new ProgressBar(this, 662, 260, progressBarConfig).numberBarObject.layout();
 
+        this.actionButtons = this.rexUI.add.buttons({
+            x: 640, y: 380,
+            orientation: 'y',
+
+            buttons: [
+                ButtonAction.create(this, 'Construire', () => { this.scene.run('building', { terrain: this.currentTerrain }); }),
+                //ButtonAction.create(this, 'Collecter'),
+                //ButtonAction.create(this, 'Démolir'),
+            ],
+
+            click: {
+                mode: 'pointerup',
+                clickInterval: 100
+            },
+
+            space: { item: 8 }
+
+        }).layout();
+
+        this.actionButtons.setVisible(false);
+
+        this.actionButtons.on('button.click', (button: Label, index, pointer, event) => {
+            this.scene.sendToBack(this);
+            this.scene.sendToBack('score-scene');
+            this.scene.sendToBack('hello-world');
+            button.execute();
+        });
+
         eventsCenter.on('PLAYER_SWITCHED_TERRAIN', this.updateTerrain, this);
     }
 
@@ -56,9 +90,11 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
         if (this.currentTerrain.discoveryLevel > 0) {
             this.productionLabel.setVisible(true);
             this.productionProgressBar.setVisible(true);
+            this.actionButtons.setVisible(true);
         } else {
             this.productionLabel.setVisible(false);
             this.productionProgressBar.setVisible(false);
+            this.actionButtons.setVisible(false);
         }
 
         this.discoveryXp.text = `Discovery: ${this.currentTerrain.discoveryLevel} (${this.currentTerrain.discoveryXp}/${this.currentTerrain.discoveryNextLevelXp})`;

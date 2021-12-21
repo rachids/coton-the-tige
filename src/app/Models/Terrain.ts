@@ -7,7 +7,7 @@ import FoodProducer from "../Services/Resources/Producers/FoodProducer";
 import WoodProducer from "../Services/Resources/Producers/WoodProducer";
 import StoneProducer from "../Services/Resources/Producers/StoneProducer";
 import GoldProducer from "../Services/Resources/Producers/GoldProducer";
-import AbstractServiceProducer from "../Contracts";
+import AbstractServiceProducer from "../Services/Resources/AbstractProducer";
 import generateRandomResource from "../Services/Resources/RandomResourceGenerator";
 import Leveling from "~/utils/Leveling";
 import colors from "~/utils/Colors";
@@ -21,6 +21,7 @@ export default class Terrain extends Phaser.GameObjects.Image {
     resourceRatio: number;
     currentProductionValue: number;
     resourceImage: Phaser.GameObjects.Image;
+    amountLanded: integer;
     
     // Labels
     labelDiscoveryLevel: Phaser.GameObjects.Text;
@@ -38,6 +39,7 @@ export default class Terrain extends Phaser.GameObjects.Image {
         this.type = randomType;
         this.resourceRatio = 0;
         this.currentProductionValue = 0;
+        this.amountLanded = 0;
 
         this.labelDiscoveryLevel = scene.add.text(position.x - 45, position.y - 75, this.discoveryLevel.toString(), {
             color: colors.convertColorToString(colors.CARRIBEAN_GREEN),
@@ -53,6 +55,8 @@ export default class Terrain extends Phaser.GameObjects.Image {
 
     onLanding()
     {
+        this.amountLanded++;
+
         let value = score.lastDiceValue;
 
         this.inscreaseDiscovery(value);

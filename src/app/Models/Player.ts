@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import gameConfig from "~/game";
+import colors from "~/utils/Colors";
 import eventsCenter from "../EventsCenter";
 import ratios from "../Ratios";
 import score from "../Stores";
@@ -12,6 +13,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     velocity: number = 14;
     currentTerrain: Terrain;
     currentXp: number;
+    spotlight: Phaser.GameObjects.Light;
 
     constructor(scene: Phaser.Scene, terrain: Terrain) {
         super(scene, terrain.position.x, terrain.position.y, 'player');
@@ -19,7 +21,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.currentTerrain = terrain;
         this.position = terrain.position;
         this.currentXp = gameConfig.STARTING_XP;
-
+        this.spotlight = scene.lights.addLight(this.position.x, this.position.y, 40, colors.CARRIBEAN_GREEN, 3);
         scene.add.existing(this);
 
         this.play('player-action')
@@ -39,6 +41,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
     {
         this.position = destination;
         this.setPosition(destination.x, destination.y);
+        let tweenA = this.scene.tweens.add({
+            targets: this.spotlight,
+            ease: Phaser.Math.Easing.Sine.Out,
+            x: destination.x,
+            y: destination.y,
+            onComplete: () => score.isPlayerMoving = false,
+        });
         this.anims.play('player-action');
     }
 

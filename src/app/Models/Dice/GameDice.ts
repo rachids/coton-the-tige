@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import eventsCenter from "~/app/EventsCenter";
+import score from "~/app/Stores";
 import Dice from "~/utils/Dice";
 
 const DiceSprite = [1,2,5,6,4,0,];
@@ -24,6 +25,12 @@ export default class GameDice extends Phaser.GameObjects.Sprite {
 
     roll()
     {
+        if (score.isPlayerMoving) {
+            return;
+        }
+
+        score.isPlayerMoving = true;
+
         /* TODO: animation à revoir
 
         let timer = setInterval(

@@ -12,15 +12,23 @@ export default class Preloader extends Phaser.Scene
     {
         this.load.image('board', 'images/boardgame.png');
 
-        // Score
+        // UI
+        this.load.image('buttonNormal', 'images/button_normal.png');
+        this.load.image('buttonPressed', 'images/button_pressed.png');
+        this.load.image('closeBtn', 'images/box_cross.png');
+
+        // Ressources
         this.load.image(ResourceType.FOOD, 'images/food.png');
         this.load.image(ResourceType.WOOD, 'images/wood.png');
         this.load.image(ResourceType.STONE, 'images/stone.png');
         this.load.image(ResourceType.GOLD, 'images/gold.png');
 
+        // Player
         this.load.spritesheet('player', 'images/bunny.png', {
             frameWidth: 72,
         });
+
+        // Dice
         this.load.spritesheet('dice', 'images/diceRed.png', {
             frameWidth: 64,
         });

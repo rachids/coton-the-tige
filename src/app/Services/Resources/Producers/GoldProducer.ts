@@ -1,4 +1,4 @@
-import AbstractServiceProducer from "~/app/Contracts";
+import AbstractServiceProducer from "~/app/Services/Resources/AbstractProducer";
 import score from "~/app/Stores";
 
 export default class GoldProducer extends AbstractServiceProducer

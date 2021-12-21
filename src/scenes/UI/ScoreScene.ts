@@ -1,11 +1,9 @@
 import Phaser from "phaser";
 import BadgeLabel from "phaser3-rex-plugins/templates/ui/badgelabel/BadgeLabel";
-import eventsCenter from "~/app/EventsCenter";
 import score from "~/app/Stores";
 import { ResourceType } from "~/game";
 import colors from "~/utils/Colors";
 import Fonts from "~/utils/Fonts";
-
 export default class ScoreScene extends Phaser.Scene
 {
     scoreFood: BadgeLabel;
@@ -21,10 +19,6 @@ export default class ScoreScene extends Phaser.Scene
 
     create()
     {
-        this.add.image(155, 540, ResourceType.FOOD)
-        this.add.image(255, 540, ResourceType.WOOD)
-        this.add.image(355, 540, ResourceType.STONE)
-
         let fontConfig = {
             color: colors.convertColorToString(colors.OLD_BURGUNDY),
             align: 'center',
@@ -91,8 +85,6 @@ export default class ScoreScene extends Phaser.Scene
         this.scoreGold.getElement('centerBottom').setText(score.gold.toFixed(1));
         this.scoreGold.layout();
 
-        //this.scoreWood.text = score.wood.toFixed(0);
-        //this.scoreStone.text = score.stone.toFixed(0);
         //this.energy.text = `Energy: ${score.energy}/${score.energyMax} (${score.turn})`;
     }
 }

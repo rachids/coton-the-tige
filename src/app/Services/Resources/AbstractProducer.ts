@@ -5,9 +5,14 @@ interface ServiceProducer {
 
 export default abstract class AbstractServiceProducer implements ServiceProducer {
     canHaveSurplus: boolean;
+    ratio: number = 1;
 
     constructor(canHaveSurplus: boolean = true) {
         this.canHaveSurplus = canHaveSurplus;
+    }
+
+    setRatio(value: number) {
+        this.ratio = value;
     }
 
     produce(value: number): number {
