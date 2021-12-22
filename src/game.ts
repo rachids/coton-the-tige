@@ -6,6 +6,7 @@ export enum ResourceType {
 };
 
 const gameConfig = {
+    COTON_DEBUG: true,
     STARTING_POSITION: {
         x: 77,
         y: 95,
@@ -15,7 +16,6 @@ const gameConfig = {
     MAX_STARTING_GOLD: 1,
     LEVELING_MODIFIER: 0.25, // 1.25
     FIRST_LEVEL_XP: 1, // 10
-    COTON_DEBUG: true,
     NOTIFICATION_ZONE: {
         x: 150,
         y: 390,

@@ -1,4 +1,5 @@
 import Player from "../Models/Player";
+import { playerState } from "../Stores/player";
 
 class PlayerService
 {
@@ -12,7 +13,7 @@ class PlayerService
     generatePlayer(fieldId: number)
     {
         this.player = new Player();
-        this.player.setFieldId(fieldId);
+        playerState.setFieldId(fieldId);
     }
 }
 

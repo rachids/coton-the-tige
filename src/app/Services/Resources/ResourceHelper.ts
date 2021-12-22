@@ -1,22 +1,15 @@
-import score from '~/app/Stores'
+import { scoreState } from "~/app/Stores/score";
 
 const ResourceHelper = {
     isValidResource(name: string)
     {
-        return score.hasOwnProperty(name);
+        return scoreState.hasOwnProperty(name);
     },
 
     findResourceFromString(resource: string)
     {
         if (this.isValidResource(resource)) {
-            return score[resource];
-        }
-    },
-
-    consume(resourceName: string, amount: number)
-    {
-        if (this.isValidResource(resourceName)) {
-            score[resourceName] -= amount;
+            return scoreState[resource];
         }
     }
 };

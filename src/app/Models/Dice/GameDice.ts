@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { diceManager } from "~/app/Services/DiceService";
-import score from "~/app/Stores";
+import { gameState } from "~/app/Stores/game";
 import { TurnHandler } from "~/app/TurnHandler";
 import gameConfig from "~/game";
 
@@ -26,7 +26,7 @@ export default class GameDice extends Phaser.GameObjects.Sprite {
         }
 
         diceManager.roll();
-        this.setFrame(diceManager.getDiceSprite()[score.lastDiceValue - 1]);
+        this.setFrame(diceManager.getDiceSprite()[gameState.lastDiceValue - 1]);
 
         TurnHandler.newTurn();
     }

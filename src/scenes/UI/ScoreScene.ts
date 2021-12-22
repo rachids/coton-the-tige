@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import BadgeLabel from "phaser3-rex-plugins/templates/ui/badgelabel/BadgeLabel";
-import score from "~/app/Stores";
+import { autorun } from "mobx";
+import { scoreState } from "~/app/Stores/score";
 import { ResourceType } from "~/game";
 import colors from "~/utils/Colors";
 import Fonts from "~/utils/Fonts";
@@ -69,22 +69,12 @@ export default class ScoreScene extends Phaser.Scene
             fontSize: '24px',
             color: '#83BCFF',
         });*/
-    }
 
-    update()
-    {
-        this.scoreFood.getElement('centerBottom').setText(score.food.toFixed(0));
-        this.scoreFood.layout();
-        
-        this.scoreWood.getElement('centerBottom').setText(score.wood.toFixed(0));
-        this.scoreWood.layout();
-        
-        this.scoreStone.getElement('centerBottom').setText(score.stone.toFixed(0));
-        this.scoreStone.layout();
-        
-        this.scoreGold.getElement('centerBottom').setText(score.gold.toFixed(1));
-        this.scoreGold.layout();
-
-        //this.energy.text = `Energy: ${score.energy}/${score.energyMax} (${score.turn})`;
+        autorun(() => {
+            this.scoreFood.getElement('centerBottom').text = `${scoreState.food}`;
+            this.scoreWood.getElement('centerBottom').text = `${scoreState.wood}`;
+            this.scoreStone.getElement('centerBottom').text = `${scoreState.stone}`;
+            this.scoreGold.getElement('centerBottom').text = `${scoreState.gold.toFixed(2)}`;
+        });
     }
 }

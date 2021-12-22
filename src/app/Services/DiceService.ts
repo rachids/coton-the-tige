@@ -1,5 +1,5 @@
 import Dice from "~/utils/Dice";
-import score from "../Stores";
+import { gameState } from "../Stores/game";
 
 export const diceManager = {
     getDiceSprite(): number[]
@@ -9,15 +9,10 @@ export const diceManager = {
 
     roll(): number 
     {
-        let diceResult = new Dice(score.minDice, score.maxDice).throw();
+        let diceResult = new Dice(gameState.minDice, gameState.maxDice).throw();
 
-        this.setLastDiceValue(diceResult);
+        gameState.setLastDiceValue(diceResult);
 
         return diceResult;
     },
-
-    setLastDiceValue(value: number)
-    {
-        score.lastDiceValue = value;
-    }
 };

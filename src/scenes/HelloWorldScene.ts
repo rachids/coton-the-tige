@@ -1,21 +1,16 @@
 import Phaser from 'phaser'
 import GameDice from '~/app/Models/Dice/GameDice';
-import Player from '~/app/Models/Player';
-import getLandingCase from '~/app/Models/CasePosition';
 import eventsCenter from '~/app/EventsCenter';
-import score from '~/app/Stores';
 import colors from '~/utils/Colors';
 import TerrainGameObject from '~/objects/TerrainGameObject';
 import fieldManager from '~/app/Services/FieldService';
 import PlayerGameObject from '~/objects/PlayerGameObject';
-import { TurnHandler } from '~/app/TurnHandler';
-import playerManager from '~/app/Services/PlayerService';
 export default class HelloWorldScene extends Phaser.Scene
 {
-    dice: GameDice;
+    dice!: GameDice;
     player!: PlayerGameObject;
     terrains: TerrainGameObject[];
-    text: Phaser.GameObjects.Text;
+    debugCoordinates!: Phaser.GameObjects.Text;
 
 	constructor()
 	{
@@ -40,10 +35,9 @@ export default class HelloWorldScene extends Phaser.Scene
 
         this.scene.run('score-scene');
         this.scene.run('notification');
+        this.scene.run('current-terrain-infos');
 
-        //eventsCenter.on('NEW_TURN', this.player.restoreEnergy, this);
-
-        this.text = this.add.text(640, 520, 'Cursors to move').setScrollFactor(0);
+        this.debugCoordinates = this.add.text(640, 520, 'Cursors to move').setScrollFactor(0);
     }
 
     update(): void {
@@ -51,7 +45,7 @@ export default class HelloWorldScene extends Phaser.Scene
             terrainGameObject.updateInfos();
         });
 
-        this.text.setText([
+        this.debugCoordinates.setText([
             'screen x: ' + this.input.x,
             'screen y: ' + this.input.y,
         ]);
@@ -59,23 +53,7 @@ export default class HelloWorldScene extends Phaser.Scene
 
     handleTerrainSwitch()
     {
-        let field = fieldManager.getFieldAtPosition(playerManager.player.getFieldId());
-
-        if ( field.id > 6) {
-            score.hasLeftStartOfBoard = true;
-        }
-
-        if ( field.id <= 6 && score.hasLeftStartOfBoard) {
-            score.turn++;
-            score.hasLeftStartOfBoard = false;
-            eventsCenter.emit('NEW_TURN');
-        }
-
-        this.player.updatePosition(field.position);
-
-        field.onLanding();
-
-        this.scene.run('current-terrain-infos', { fieldId: field.id });
+        this.player.updatePosition();
     }
 
     drawFields()

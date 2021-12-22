@@ -1,9 +1,10 @@
 import score from "../Stores";
+import { gameState } from "../Stores/game";
 
 const goldPolicy = {
     maxGoldTileReached(): boolean 
     {
-        return score.currentGoldTile >= score.maxGoldTile;
+        return gameState.currentGoldTile >= gameState.maxGoldTile;
     },
 };
 

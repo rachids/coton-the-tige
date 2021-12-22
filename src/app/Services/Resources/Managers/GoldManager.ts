@@ -1,13 +1,13 @@
-import score from "~/app/Stores";
+import { scoreState } from "~/app/Stores/score";
 import AbstractStatManager from "../../AbstractStatManager";
 
 export default class GoldManager extends AbstractStatManager
 {
     add(value: number): void {
-        score.gold += this.validateTooMuch(value);
+        scoreState.gold += this.validateTooMuch(value);
     }
     remove(value: number): void {
-        score.gold -= this.validateTooLittle(value);
+        scoreState.gold -= this.validateTooLittle(value);
     }
     
 }
