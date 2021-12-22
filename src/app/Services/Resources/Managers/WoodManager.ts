@@ -1,13 +1,15 @@
-import score from "~/app/Stores";
+import { scoreState } from "~/app/Stores/score";
 import AbstractStatManager from "../../AbstractStatManager";
 
 export default class WoodManager extends AbstractStatManager
 {
     add(value: number): void {
-        score.wood += this.validateTooMuch(value);
+        let result = scoreState.wood + this.validateTooMuch(value);
+        scoreState.setWood(result);
     }
     remove(value: number): void {
-        score.wood -= this.validateTooLittle(value);
+        let result = scoreState.wood - this.validateTooLittle(value);
+        scoreState.setWood(result);
     }
     
 }

@@ -1,20 +1,20 @@
 import Phaser from "phaser";
+import { autorun } from "mobx";
 import Label from "phaser3-rex-plugins/templates/ui/label/Label";
 import NumberBar from "phaser3-rex-plugins/templates/ui/numberbar/NumberBar";
-import eventsCenter from "~/app/EventsCenter";
-import Terrain from "~/app/Models/Terrain";
 import fieldManager from "~/app/Services/FieldService";
-import playerManager from "~/app/Services/PlayerService";
 import ButtonAction from "~/app/Services/UI/Button";
 import ProgressBar from "~/app/Services/UI/ProgressBar";
 import colors from "~/utils/Colors";
 import Fonts from "~/utils/Fonts";
+import { playerState } from "~/app/Stores/player";
 
 export default class CurrentTerrainInfos extends Phaser.Scene {
 
-    discoveryXp: Phaser.GameObjects.Text;
-    productionLabel: Phaser.GameObjects.Text;
-    productionProgressBar: NumberBar;
+    currentFieldText!: Phaser.GameObjects.Text;
+    discoveryXp!: Phaser.GameObjects.Text;
+    productionLabel!: Phaser.GameObjects.Text;
+    productionProgressBar!: NumberBar;
 
     actionButtons;
 
@@ -22,7 +22,7 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
         super('current-terrain-infos');
     }
 
-    create(data: { fieldId: number })
+    create()
     {
         let panel = this.add.graphics();
 
@@ -41,7 +41,7 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
             color: '#191919',
         };
         
-        this.add.text(600, 140, 'Current Field', fontConfig);
+        this.currentFieldText = this.add.text(600, 140, 'Current Field', fontConfig);
         this.discoveryXp = this.add.text(535, 200, 'Discovery: 0 (0/0)', fontDetailsConfig);
 
         const progressBarConfig = {
@@ -78,34 +78,33 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
             this.scene.sendToBack('hello-world');
             button.execute();
         });
-    }
 
-    update(): void {
-        if (playerManager.player.fieldId != undefined) {
-            this.refreshInfos(playerManager.player.fieldId);
-        }
-    }
+        autorun(() => {
+            let field = fieldManager.getFieldAtPosition(playerState.fieldId);
+            this.currentFieldText.text = `Current Field: ${field.id}`;
 
-    refreshInfos(fieldId: number)
-    {
-        let field = fieldManager.getFieldAtPosition(fieldId);
+            console.log(field.id, field.canSeeResource());
 
-        if (field.canSeeResource()) {
-            this.actionButtons.setVisible(true);
+            if (field.canSeeResource()) {
+                this.actionButtons.setVisible(true);
 
-            if (field.canProduce()) {
-                this.productionLabel.setVisible(true);
-                this.productionProgressBar.setVisible(true);
-                this.productionLabel.text = `Production: ${field.currentProductionValue.toFixed(2)}%`
-                this.productionProgressBar.setValue(field.currentProductionValue, 0, 100);
+                if (field.canProduce()) {
+                    this.productionLabel.setVisible(true);
+                    this.productionProgressBar.setVisible(true);
+                    this.productionLabel.text = `Production: ${field.currentProductionValue.toFixed(2)}%`
+                    this.productionProgressBar.setValue(field.currentProductionValue, 0, 100);
+                } else {
+                    this.productionLabel.setVisible(false);
+                    this.productionProgressBar.setVisible(false);
+                }
+
+            } else {
+                this.productionLabel.setVisible(false);
+                this.productionProgressBar.setVisible(false);
+                this.actionButtons.setVisible(false);
             }
-            
-        } else {
-            this.productionLabel.setVisible(false);
-            this.productionProgressBar.setVisible(false);
-            this.actionButtons.setVisible(false);
-        }
 
-        this.discoveryXp.text = `Discovery: ${field.discoveryLevel} (${field.discoveryXp}/${field.discoveryNextLevelXp})`;
+            this.discoveryXp.text = `Discovery: ${field.discoveryLevel} (${field.discoveryXp}/${field.discoveryNextLevelXp})`;
+        });
     }
 }

@@ -1,7 +1,6 @@
 import { ResourceType } from "~/game";
 import eventsCenter from "../EventsCenter";
 import ratios from "../Ratios";
-import score from "../Stores";
 import { CasePosition, Position } from "./Types/Position";
 import generateRandomResource from "../Services/Resources/RandomResourceGenerator";
 import Leveling from "~/utils/Leveling";
@@ -14,6 +13,7 @@ import GoldManager from "../Services/Resources/Managers/GoldManager";
 import { NotificationType, Notify } from "~/utils/Notify";
 import Conquest from "./Conquests/Conquest";
 import LevelZero from "./Conquests/LevelZero";
+import { gameState } from "../Stores/game";
 
 export default class Terrain {
     id: number;
@@ -58,23 +58,23 @@ export default class Terrain {
     {
         this.amountLanded++;
 
-        let value = score.lastDiceValue;
+        let diceValue = gameState.lastDiceValue;
 
-        this.inscreaseDiscovery(value);
+        this.inscreaseDiscovery(diceValue);
 
         if (this.canProduce()) {
             switch (ResourceType[this.type]) {
                 case ResourceType.FOOD:
-                    this.currentProductionValue += value * ratios.FOOD;
+                    this.currentProductionValue += diceValue * ratios.FOOD;
                     break;
                 case ResourceType.WOOD:
-                    this.currentProductionValue += value * ratios.WOOD;
+                    this.currentProductionValue += diceValue * ratios.WOOD;
                     break;
                 case ResourceType.STONE:
-                    this.currentProductionValue += value * ratios.STONE;
+                    this.currentProductionValue += diceValue * ratios.STONE;
                     break;
                 case ResourceType.GOLD:
-                    this.currentProductionValue += value * ratios.GOLD;
+                    this.currentProductionValue += diceValue * ratios.GOLD;
                     break;
 
                 default:

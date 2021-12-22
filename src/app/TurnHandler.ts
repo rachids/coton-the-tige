@@ -3,23 +3,34 @@
  * - fire events, set new position, fire actions etc. 
  */
 
+import eventsCenter from "./EventsCenter";
 import { getLandingCase } from "./Models/CasePosition";
 import fieldManager from "./Services/FieldService";
-import playerManager from "./Services/PlayerService";
-import score from "./Stores";
+import { gameState } from "./Stores/game";
+import { playerState } from "./Stores/player";
+import { scoreState } from "./Stores/score";
 
 export const TurnHandler = {
     
     newTurn() {
-        let player = playerManager.player;
+        let currentField = playerState.fieldId;
 
-        let currentField = player.getFieldId();
-
-        let landingFieldId = getLandingCase(currentField, score.lastDiceValue);
+        let landingFieldId = getLandingCase(currentField, gameState.lastDiceValue);
         let fieldDestination = fieldManager.getFieldAtPosition(landingFieldId);
+
+        if (fieldDestination.id > 6) {
+            playerState.setLeftStartOfBoard(true);
+        }
+
+        if (fieldDestination.id <= 6 && playerState.hasLeftStartOfBoard) {
+            scoreState.turn++;
+            playerState.setLeftStartOfBoard(false);
+        }
 
         fieldDestination.onLanding();
 
-        player.updateTerrain(fieldDestination);
+        playerState.setFieldId(fieldDestination.id);
+
+        eventsCenter.emit('PLAYER_SWITCHED_TERRAIN');
     }
 };

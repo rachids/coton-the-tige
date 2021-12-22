@@ -1,17 +1,17 @@
-import score from "~/app/Stores";
+import { playerState } from "~/app/Stores/player";
 import AbstractStatManager from "../../AbstractStatManager";
 
 export default class EnergyManager extends AbstractStatManager
 {
     min: number = 0;
-    max: number = score.energyMax;
+    max: number = playerState.energyMax;
 
     add(value: number): void {
-        score.energy += this.validateTooMuch(value);
+        playerState.addCurrentEnergy(this.validateTooMuch(value));
     }
 
     remove(value: number): void {
-        score.energy -= this.validateTooLittle(value);
+        playerState.removeCurrentEnergy(this.validateTooLittle(value));
     }
     
 }

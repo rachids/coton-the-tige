@@ -27,7 +27,7 @@ export default class TerrainGameObject extends Phaser.GameObjects.Image
             fontFamily: Fonts.forStats,
         }).setDepth(10);
 
-        this.resourceImage = scene.add.image(x + 47, y + 47, ResourceType[field.type]).setScale(0.3).setDepth(10);
+        this.resourceImage = scene.add.image(x + 47, y + 47, ResourceType[field.type]).setScale(0.3).setDepth(10).setVisible(false);
     }
 
     updateInfos()
@@ -35,5 +35,9 @@ export default class TerrainGameObject extends Phaser.GameObjects.Image
         let field = fieldManager.getFieldAtPosition(this.fieldId);
 
         this.labelConquestLevel.setText(field.conquestLevel.getLevelLabel());
+
+        if (field.canSeeResource()) {
+            this.resourceImage.setVisible(true);
+        }
     }
 }
