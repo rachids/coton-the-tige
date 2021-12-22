@@ -83,8 +83,6 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
             let field = fieldManager.getFieldAtPosition(playerState.fieldId);
             this.currentFieldText.text = `Current Field: ${field.id}`;
 
-            console.log(field.id, field.canSeeResource());
-
             if (field.canSeeResource()) {
                 this.actionButtons.setVisible(true);
 
