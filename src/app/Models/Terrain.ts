@@ -5,42 +5,36 @@ import score from "../Stores";
 import { CasePosition, Position } from "./Types/Position";
 import generateRandomResource from "../Services/Resources/RandomResourceGenerator";
 import Leveling from "~/utils/Leveling";
-import colors from "~/utils/Colors";
 import ResourceProducer from "../Services/Resources/ResourceProducer";
 import AbstractResourceManager from "../Services/AbstractStatManager";
 import FoodManager from "../Services/Resources/Managers/FoodManager";
 import StoneManager from "../Services/Resources/Managers/StoneManager";
 import WoodManager from "../Services/Resources/Managers/WoodManager";
 import GoldManager from "../Services/Resources/Managers/GoldManager";
-import Notify from "~/utils/Notify";
+import { NotificationType, Notify } from "~/utils/Notify";
 import Conquest from "./Conquests/Conquest";
 import LevelZero from "./Conquests/LevelZero";
-import Fonts from "~/utils/Fonts";
 
-export default class Terrain extends Phaser.GameObjects.Image {
+export default class Terrain {
+    id: number;
     discoveryXp: number;
     discoveryLevel: number;
     discoveryNextLevelXp: number;
-    position: CasePosition;
+    position: Position;
     type: ResourceType;
     resourceRatio: number;
     discoveryRatio: number;
     currentProductionValue: number;
-    resourceImage: Phaser.GameObjects.Image;
     amountLanded: integer;
     producer: ResourceProducer;
     conquestLevel: Conquest;
     unlockedProduction: boolean;
     
-    // Labels
-    labelConquestLevel: Phaser.GameObjects.Text;
-
-    constructor(scene: Phaser.Scene, position: Position)
+    constructor(position: CasePosition)
     {
         let randomType = generateRandomResource();
 
-        super(scene, position.x, position.y, randomType)
-
+        this.id = position.caseNumber;
         this.position = position;
         this.discoveryXp = 0;
         this.discoveryLevel = 0;
@@ -53,18 +47,6 @@ export default class Terrain extends Phaser.GameObjects.Image {
         this.producer = this.generateProducer();
         this.unlockedProduction = false;
         this.conquestLevel = new LevelZero(this);
-
-        this.labelConquestLevel = scene.add.text(position.x - 45, position.y - 75, '', {
-            color: colors.convertColorToString(colors.CARRIBEAN_GREEN),
-            align: 'center',
-            backgroundColor: '#000',
-            padding: { left: 2, right: 2, top: 1, bottom: 1 },
-            fontSize: '16px',
-            fontFamily: Fonts.forStats,
-        });
-        this.updateConquestLabel();
-
-        this.resourceImage = scene.add.image(position.x, position.y - 50, ResourceType[this.type]).setScale(0.3).setVisible(false);
     }
 
     generateProducer(): ResourceProducer
@@ -79,10 +61,6 @@ export default class Terrain extends Phaser.GameObjects.Image {
         let value = score.lastDiceValue;
 
         this.inscreaseDiscovery(value);
-
-        if (this.canSeeResource()) {
-            this.resourceImage.setVisible(true);
-        }
 
         if (this.canProduce()) {
             switch (ResourceType[this.type]) {
@@ -115,13 +93,13 @@ export default class Terrain extends Phaser.GameObjects.Image {
     {
         this.discoveryXp += value * ratios.DISCOVERY_XP;
 
-        if (this.levelUp()) {
+        if (this.discoveryLevelUp()) {
             this.discoveryXp = 0;
             eventsCenter.emit('TILE_LEVEL_UP', this);
         }
     }
 
-    levelUp(): boolean
+    discoveryLevelUp(): boolean
     {
         if (this.discoveryXp >= this.discoveryNextLevelXp) {
             this.discoveryLevel++;
@@ -146,7 +124,7 @@ export default class Terrain extends Phaser.GameObjects.Image {
                 return new GoldManager
 
             default:
-                throw new Error('jai pas encore fait le boulot')
+                throw new Error('It seems the developer forgot he had to add something here about the resource managers or something.');
         }
     }
 
@@ -156,7 +134,7 @@ export default class Terrain extends Phaser.GameObjects.Image {
 
         this.currentProductionValue = surplus;
 
-        Notify.sendMessage(`+ ${amount} ${this.type}`, this.position);
+        Notify.sendMessage(`+ ${amount} ${this.type}`, this.position, NotificationType.STATS);
     }
 
     canSeeResource(): boolean
@@ -167,10 +145,5 @@ export default class Terrain extends Phaser.GameObjects.Image {
     canProduce(): boolean
     {
         return this.canSeeResource() && this.unlockedProduction;
-    }
-
-    updateConquestLabel()
-    {
-        this.labelConquestLevel.text = this.conquestLevel.level.toString();
     }
 }

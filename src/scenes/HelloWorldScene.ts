@@ -1,17 +1,21 @@
 import Phaser from 'phaser'
 import GameDice from '~/app/Models/Dice/GameDice';
 import Player from '~/app/Models/Player';
-import { CasePosition } from '~/app/Models/CasePosition';
 import getLandingCase from '~/app/Models/CasePosition';
-import Terrain from '~/app/Models/Terrain';
 import eventsCenter from '~/app/EventsCenter';
 import score from '~/app/Stores';
 import colors from '~/utils/Colors';
+import TerrainGameObject from '~/objects/TerrainGameObject';
+import fieldManager from '~/app/Services/FieldService';
+import PlayerGameObject from '~/objects/PlayerGameObject';
+import { TurnHandler } from '~/app/TurnHandler';
+import playerManager from '~/app/Services/PlayerService';
 export default class HelloWorldScene extends Phaser.Scene
 {
-    dice!: GameDice;
-    player!: Player;
-    terrains: Terrain[];
+    dice: GameDice;
+    player!: PlayerGameObject;
+    terrains: TerrainGameObject[];
+    text: Phaser.GameObjects.Text;
 
 	constructor()
 	{
@@ -24,52 +28,73 @@ export default class HelloWorldScene extends Phaser.Scene
         this.lights.enable();
         this.lights.setAmbientColor(colors.LAVENDER_GRAY);
 
-        eventsCenter.on('dice-rolled', this.handleDiceRolled, this);
         eventsCenter.on('PLAYER_SWITCHED_TERRAIN', this.handleTerrainSwitch, this);
         this.add.image(400, 300, 'board').setPipeline('Light2D').setAlpha(0.8);
 
         this.lights.addLight(270, 260, 128, colors.TART_ORANGE, 3)
 
-        // Instancier les terrains
-        for(let i=0; i<16; i++) {
-            this.terrains.push(
-                new Terrain(this, CasePosition[i])
-            )
-        }
-
         this.dice = new GameDice(this, 560, 90);
 
-        this.player = new Player(this, this.terrains[0]);
+        this.drawFields();
+        this.drawPlayer();
 
         this.scene.run('score-scene');
         this.scene.run('notification');
 
-        eventsCenter.on('NEW_TURN', this.player.restoreEnergy, this);
+        //eventsCenter.on('NEW_TURN', this.player.restoreEnergy, this);
+
+        this.text = this.add.text(640, 520, 'Cursors to move').setScrollFactor(0);
     }
 
-    handleDiceRolled(dice: GameDice)
-    {
-        score.lastDiceValue = dice.currentValue;
+    update(): void {
+        this.terrains.forEach(terrainGameObject => {
+            terrainGameObject.updateInfos();
+        });
 
-        let landingCase = getLandingCase(this.player.position.caseNumber, dice.currentValue);
-
-        this.scene.run('current-terrain-infos', this.terrains[landingCase]);
-
-        this.player.updateTerrain(this.terrains[landingCase]);
+        this.text.setText([
+            'screen x: ' + this.input.x,
+            'screen y: ' + this.input.y,
+        ]);
     }
 
-    handleTerrainSwitch(terrain: Terrain)
+    handleTerrainSwitch()
     {
-        if ( terrain.position.caseNumber > 6) {
+        let field = fieldManager.getFieldAtPosition(playerManager.player.getFieldId());
+
+        if ( field.id > 6) {
             score.hasLeftStartOfBoard = true;
         }
 
-        if ( terrain.position.caseNumber <= 6 && score.hasLeftStartOfBoard) {
+        if ( field.id <= 6 && score.hasLeftStartOfBoard) {
             score.turn++;
             score.hasLeftStartOfBoard = false;
             eventsCenter.emit('NEW_TURN');
         }
 
-        terrain.onLanding();
+        this.player.updatePosition(field.position);
+
+        field.onLanding();
+
+        this.scene.run('current-terrain-infos', { fieldId: field.id });
+    }
+
+    drawFields()
+    {
+        let fields = fieldManager.fields;
+
+        fields.forEach(field => {
+            let fieldGameObject = new TerrainGameObject(this, field.id);
+            fieldGameObject.setOrigin(0, 0);
+            fieldGameObject.setPipeline('Light2D').setAlpha(0.9);
+
+            this.add.existing(fieldGameObject);
+            this.terrains.push(fieldGameObject);
+        });
+    }
+
+    drawPlayer()
+    {
+        this.player = new PlayerGameObject(this);
+        this.add.existing(this.player);
     }
 }

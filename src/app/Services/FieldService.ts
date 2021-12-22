@@ -1,14 +1,12 @@
 import Terrain from "~/app/Models/Terrain";
-import CasePosition from "~/app/Models/CasePosition";
+import { CasePosition } from "~/app/Models/CasePosition";
 
 class FieldService
 {
-    scene: Phaser.Scene;
     fields: Terrain[];
 
-    constructor(scene: Phaser.Scene)
+    constructor()
     {
-        this.scene = scene;
         this.fields = [];
     }
 
@@ -16,7 +14,7 @@ class FieldService
     {
         for (let i = 0; i < 16; i++) {
             this.fields.push(
-                new Terrain(this.scene, CasePosition[i])
+                new Terrain(CasePosition[i])
             )
         }
     }
@@ -28,3 +26,5 @@ class FieldService
 }
 
 const fieldManager = new FieldService();
+
+export default fieldManager;

@@ -14,6 +14,8 @@ const score = {
     lastDiceValue: 0,
     currentGoldTile: 0,
     maxGoldTile: gameConfig.MAX_STARTING_GOLD,
+    minDice: 1,
+    maxDice: 3,
 };
 
 export default score;

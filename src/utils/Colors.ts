@@ -4,6 +4,7 @@ const colors = {
     CARRIBEAN_GREEN: 0x03CEA4,
     TART_ORANGE: 0xFB4D3D,
     LAVENDER_GRAY: 0xCAC4CE,
+    FRENCH_RASPBERRY: 0xCE2D4F,
 
     convertColorToString(value: number): string {
         let rgb = Phaser.Display.Color.IntegerToRGB(value);

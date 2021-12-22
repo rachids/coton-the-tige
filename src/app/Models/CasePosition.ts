@@ -3,87 +3,87 @@ import { CasePosition as CasePositionType, Position } from "./Types/Position";
 export const CasePosition: CasePositionType[] = [
     {
         caseNumber: 1,
-        x: 75,
-        y: 95,
+        x: 30,
+        y: 20,
     },
     {
         caseNumber: 2,
-        x: 173,
-        y: 95,
+        x: 128,
+        y: 20,
     },
     {
         caseNumber: 3,
-        x: 271,
-        y: 95,
+        x: 226,
+        y: 20,
     },
     {
         caseNumber: 4,
-        x: 369,
-        y: 95,
+        x: 324,
+        y: 20,
     },
     {
         caseNumber: 5,
-        x: 467,
-        y: 95,
+        x: 422,
+        y: 20,
     },
     {
         caseNumber: 6,
-        x: 467,
-        y: 193,
+        x: 422,
+        y: 118,
     },
     {
         caseNumber: 7,
-        x: 467,
-        y: 291,
+        x: 422,
+        y: 216,
     },
     {
         caseNumber: 8,
-        x: 467,
-        y: 389,
+        x: 422,
+        y: 314,
     },
     {
         caseNumber: 9,
-        x: 467,
-        y: 487,
+        x: 422,
+        y: 412,
     },
     {
         caseNumber: 10,
-        x: 369,
-        y: 487,
+        x: 324,
+        y: 412,
     },
     {
         caseNumber: 11,
-        x: 271,
-        y: 487,
+        x: 226,
+        y: 412,
     },
     {
         caseNumber: 12,
-        x: 173,
-        y: 487,
+        x: 128,
+        y: 412,
     },
     {
         caseNumber: 13,
-        x: 75,
-        y: 487,
+        x: 30,
+        y: 412,
     },
     {
         caseNumber: 14,
-        x: 75,
-        y: 389,
+        x: 30,
+        y: 314,
     },
     {
         caseNumber: 15,
-        x: 75,
-        y: 291,
+        x: 30,
+        y: 216,
     },
     {
         caseNumber: 16,
-        x: 75,
-        y: 193,
+        x: 30,
+        y: 118,
     },
 ];
 
-export default function getLandingCase(current: number, amountToAdvance: number): number {
+export function getLandingCase(current: number, amountToAdvance: number): number {
 
     let response = current + amountToAdvance;
 
@@ -91,5 +91,5 @@ export default function getLandingCase(current: number, amountToAdvance: number)
         response -= 16;
     }
 
-    return response - 1;
+    return response;
 }
