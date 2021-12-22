@@ -27,7 +27,6 @@ export default class Player
 
     updateTerrain(destination: Terrain)
     {
-        // TODO: Refactor to use only the ID and not the full object
         this.increaseXp(score.lastDiceValue);
         this.fieldId = destination.id;
 

@@ -7,7 +7,7 @@ import gameConfig from "~/game";
 export default class GameDice extends Phaser.GameObjects.Sprite {
 
     constructor(scene: Phaser.Scene, posX: number, posY: number) {
-        super(scene, posX, posY, 'dice', diceManager.getDiceSprite[0]);
+        super(scene, posX, posY, 'dice', diceManager.getDiceSprite()[0]);
 
         scene.add.existing(this);
 

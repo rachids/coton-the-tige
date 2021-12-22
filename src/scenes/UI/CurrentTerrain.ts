@@ -78,8 +78,6 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
             this.scene.sendToBack('hello-world');
             button.execute();
         });
-
-        // eventsCenter.on('PLAYER_SWITCHED_TERRAIN', this.updateTerrain, this);
     }
 
     update(): void {
