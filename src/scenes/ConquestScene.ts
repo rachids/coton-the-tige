@@ -1,24 +1,23 @@
 import Label from "phaser3-rex-plugins/templates/ui/label/Label";
 import Conquest from "~/app/Models/Conquests/Conquest";
 import Terrain from "~/app/Models/Terrain";
+import fieldManager from "~/app/Services/FieldService";
+import playerManager from "~/app/Services/PlayerService";
 import ButtonAction from "~/app/Services/UI/Button";
 import { createTextBox } from "~/app/Services/UI/TextBox";
 import CotonTextStyle from "~/config/textstyle";
 import colors from "~/utils/Colors";
 import Fonts from "~/utils/Fonts";
-import { getBBCodeText } from "~/utils/utils";
 
 export default class ConquestScene extends Phaser.Scene {
-    field: Terrain;
-
     constructor()
     {
         super('building');
     }
 
-    create(data: { terrain: Terrain })
+    create()
     {
-        let field: Terrain = data.terrain;
+        let field: Terrain = fieldManager.getFieldAtPosition(playerManager.player.getFieldId());
 
         let graphics = this.add.graphics();
 
@@ -101,7 +100,7 @@ export default class ConquestScene extends Phaser.Scene {
     onConquest(level: Conquest)
     {
         level.onBuild();
-        this.scene.run('current-terrain-infos', { terrain: this.field });
+        this.scene.run('current-terrain-infos', { fieldId: playerManager.player.getFieldId() });
         this.scene.stop();
     }
 }

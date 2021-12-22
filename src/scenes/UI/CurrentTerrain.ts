@@ -3,6 +3,8 @@ import Label from "phaser3-rex-plugins/templates/ui/label/Label";
 import NumberBar from "phaser3-rex-plugins/templates/ui/numberbar/NumberBar";
 import eventsCenter from "~/app/EventsCenter";
 import Terrain from "~/app/Models/Terrain";
+import fieldManager from "~/app/Services/FieldService";
+import playerManager from "~/app/Services/PlayerService";
 import ButtonAction from "~/app/Services/UI/Button";
 import ProgressBar from "~/app/Services/UI/ProgressBar";
 import colors from "~/utils/Colors";
@@ -10,7 +12,6 @@ import Fonts from "~/utils/Fonts";
 
 export default class CurrentTerrainInfos extends Phaser.Scene {
 
-    currentTerrain: Terrain;
     discoveryXp: Phaser.GameObjects.Text;
     productionLabel: Phaser.GameObjects.Text;
     productionProgressBar: NumberBar;
@@ -21,10 +22,8 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
         super('current-terrain-infos');
     }
 
-    create(data: object)
+    create(data: { fieldId: number })
     {
-        this.currentTerrain = data.terrain;
-
         let panel = this.add.graphics();
 
         panel.fillStyle(colors.CARRIBEAN_GREEN, 0.75);
@@ -59,7 +58,7 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
             orientation: 'y',
 
             buttons: [
-                ButtonAction.create(this, 'Conquest This Land', () => { this.scene.run('building', { terrain: this.currentTerrain }); }),
+                ButtonAction.create(this, 'Conquest This Land', () => { this.scene.run('building'); }),
             ],
 
             click: {
@@ -79,26 +78,26 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
             this.scene.sendToBack('hello-world');
             button.execute();
         });
-
-        eventsCenter.on('PLAYER_SWITCHED_TERRAIN', this.updateTerrain, this);
     }
 
     update(): void {
-        if (this.currentTerrain != undefined) {
-            this.refreshInfos();
+        if (playerManager.player.fieldId != undefined) {
+            this.refreshInfos(playerManager.player.fieldId);
         }
     }
 
-    refreshInfos()
+    refreshInfos(fieldId: number)
     {
-        if (this.currentTerrain.canSeeResource()) {
+        let field = fieldManager.getFieldAtPosition(fieldId);
+
+        if (field.canSeeResource()) {
             this.actionButtons.setVisible(true);
 
-            if (this.currentTerrain.canProduce()) {
+            if (field.canProduce()) {
                 this.productionLabel.setVisible(true);
                 this.productionProgressBar.setVisible(true);
-                this.productionLabel.text = `Production: ${this.currentTerrain.currentProductionValue.toFixed(2)}%`
-                this.productionProgressBar.setValue(this.currentTerrain.currentProductionValue, 0, 100);
+                this.productionLabel.text = `Production: ${field.currentProductionValue.toFixed(2)}%`
+                this.productionProgressBar.setValue(field.currentProductionValue, 0, 100);
             }
             
         } else {
@@ -107,12 +106,6 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
             this.actionButtons.setVisible(false);
         }
 
-        this.discoveryXp.text = `Discovery: ${this.currentTerrain.discoveryLevel} (${this.currentTerrain.discoveryXp}/${this.currentTerrain.discoveryNextLevelXp})`;
-    }
-
-    updateTerrain(terrain: Terrain)
-    {
-        this.currentTerrain = terrain;
-        this.refreshInfos();
+        this.discoveryXp.text = `Discovery: ${field.discoveryLevel} (${field.discoveryXp}/${field.discoveryNextLevelXp})`;
     }
 }

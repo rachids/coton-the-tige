@@ -1,4 +1,7 @@
 import Phaser from 'phaser';
+import { diceManager } from '~/app/Services/DiceService';
+import fieldManager from '~/app/Services/FieldService';
+import playerManager from '~/app/Services/PlayerService';
 import { ResourceType } from '~/game';
 
 export default class Preloader extends Phaser.Scene
@@ -23,6 +26,9 @@ export default class Preloader extends Phaser.Scene
         this.load.image(ResourceType.WOOD, 'images/wood.png');
         this.load.image(ResourceType.STONE, 'images/stone.png');
         this.load.image(ResourceType.GOLD, 'images/gold.png');
+
+        // Terrain
+        this.load.image('terrain', 'images/terrain.png');
 
         // Player
         this.load.spritesheet('player', 'images/bunny.png', {
@@ -76,6 +82,19 @@ export default class Preloader extends Phaser.Scene
             frameRate: 7,
             yoyo: true,
         });
+
+        this.anims.create({
+            key: 'dice-roll',
+            frames: this.anims.generateFrameNumbers('dice', { 
+                frames: diceManager.getDiceSprite(),
+             })
+        });
+
+        // Générer les terrains
+        fieldManager.generateFields();
+
+        // Générer le personnage
+        playerManager.generatePlayer(fieldManager.getFieldAtPosition(1).id);
 
         this.scene.start('hello-world');
     }

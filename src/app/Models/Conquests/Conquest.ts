@@ -1,5 +1,7 @@
 import Bonus from "~/app/Services/Bonuses/BonusManager";
 import ResourceHelper from "~/app/Services/Resources/ResourceHelper";
+import gameConfig from "~/game";
+import { NotificationType, Notify } from "~/utils/Notify";
 import Terrain from "../Terrain";
 
 export default abstract class Conquest
@@ -35,7 +37,9 @@ export default abstract class Conquest
 
             // Field has new level!
             this.field.conquestLevel = this.getNextLevel();
-            this.field.updateConquestLabel();
+            Notify.sendMessage("WE HAVE CONQUERED THIS LAND!", gameConfig.NOTIFICATION_ZONE, NotificationType.INFO);
+        } else {
+            Notify.sendMessage("You don't have all the stuff needed to conquer this land.", gameConfig.NOTIFICATION_ZONE, NotificationType.ALERT);
         }
     }
 
@@ -89,5 +93,10 @@ export default abstract class Conquest
     isNext(currentLevel: number): boolean
     {
         return this.level + 1 === currentLevel;
+    }
+
+    getLevelLabel(): string
+    {
+        return this.level.toString();
     }
 }
