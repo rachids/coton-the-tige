@@ -1,4 +1,5 @@
 import { Bonus, Cost } from "~/app/Services/Bonuses/BonusManager";
+import fieldState from "~/app/Stores/fields";
 import gameConfig from "~/game";
 import { NotificationType, Notify } from "~/utils/Notify";
 import Terrain from "../Terrain";
@@ -11,11 +12,11 @@ export default abstract class Conquest
     bonusesDescription: string[];
     bonuses: Bonus[] = [];
     costs: Cost[] = [];
-    field: Terrain;
+    fieldId: number;
 
-    constructor(field: Terrain)
+    constructor(fieldId: number)
     {
-        this.field = field;
+        this.fieldId = fieldId;
         this.name = 'xxNCL_OVSLYxx';
         this.level = 1;
         this.description = "The developer must have forgotten something but he was really busy making a probably more important feature.",
@@ -25,6 +26,7 @@ export default abstract class Conquest
     onBuild(): void 
     {
         if (this.canBuild()) {
+            
             // Execute costs
             this.costs.forEach(cost => cost.execute());
 
@@ -32,14 +34,19 @@ export default abstract class Conquest
             this.bonuses.forEach(bonus => bonus.execute());
 
             // Field has new level!
-            this.field.conquestLevel = this.getNextLevel();
-            Notify.sendMessage("WE HAVE CONQUERED THIS LAND!", gameConfig.NOTIFICATION_ZONE, NotificationType.INFO);
+            fieldState.setNextConquestLevel(this.fieldId, this.getNextLevel())
+            Notify.sendMessage("THIS LAND IS MINE, LADY!", gameConfig.NOTIFICATION_ZONE, NotificationType.INFO);
         } else {
             Notify.sendMessage("You don't have all the stuff needed to conquer this land.", gameConfig.NOTIFICATION_ZONE, NotificationType.ALERT);
         }
     }
 
     abstract getNextLevel(): Conquest;
+
+    getField(): Terrain
+    {
+        return fieldState.getFieldById(this.fieldId);
+    }
 
     setDescription(text: string)
     {

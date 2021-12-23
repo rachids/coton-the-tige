@@ -3,12 +3,12 @@ import AbstractStatManager from "../AbstractStatManager";
 
 export default abstract class AbstractRatioManager extends AbstractStatManager
 {
-    field?: Terrain;
+    fieldId?: number;
 
-    constructor(field?: Terrain)
+    constructor(fieldId?: number)
     {
         super();
-        this.field = field;
+        this.fieldId = fieldId;
     }
 
     abstract add(value: number): void;

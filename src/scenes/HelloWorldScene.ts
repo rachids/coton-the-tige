@@ -3,8 +3,8 @@ import GameDice from '~/app/Models/Dice/GameDice';
 import eventsCenter from '~/app/EventsCenter';
 import colors from '~/utils/Colors';
 import TerrainGameObject from '~/objects/TerrainGameObject';
-import fieldManager from '~/app/Services/FieldService';
 import PlayerGameObject from '~/objects/PlayerGameObject';
+import fieldState from '~/app/Stores/fields';
 export default class HelloWorldScene extends Phaser.Scene
 {
     dice!: GameDice;
@@ -57,7 +57,7 @@ export default class HelloWorldScene extends Phaser.Scene
 
     drawFields()
     {
-        let fields = fieldManager.fields;
+        let fields = fieldState.fields;
 
         fields.forEach(field => {
             let fieldGameObject = new TerrainGameObject(this, field.id);

@@ -2,12 +2,12 @@ import Phaser from "phaser";
 import { autorun } from "mobx";
 import Label from "phaser3-rex-plugins/templates/ui/label/Label";
 import NumberBar from "phaser3-rex-plugins/templates/ui/numberbar/NumberBar";
-import fieldManager from "~/app/Services/FieldService";
 import ButtonAction from "~/app/Services/UI/Button";
 import ProgressBar from "~/app/Services/UI/ProgressBar";
 import colors from "~/utils/Colors";
 import { Fonts } from "~/utils/Fonts";
 import { playerState } from "~/app/Stores/player";
+import fieldState from "~/app/Stores/fields";
 
 export default class CurrentTerrainInfos extends Phaser.Scene {
 
@@ -81,7 +81,7 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
         });
 
         autorun(() => {
-            let field = fieldManager.getFieldAtPosition(playerState.fieldId);
+            let field = fieldState.getFieldById(playerState.fieldId);
             this.currentFieldText.text = `Current Field: ${field.id}`;
 
             if (field.canSeeResource()) {

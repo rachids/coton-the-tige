@@ -10,7 +10,7 @@ export default class DiscoveryManager extends AbstractRatioManager
             try {
                 this.field.discoveryRatio += value;   
             } catch (error) {
-                throw new Error('DiscoveryManager has failed.', error);
+                throw new Error('DiscoveryManager has failed.');
             }
         }
     }
@@ -26,4 +26,7 @@ export default class DiscoveryManager extends AbstractRatioManager
         }
     }
     
+    hasEnough(value: number): boolean {
+        throw new Error("Method not implemented.");
+    }
 }

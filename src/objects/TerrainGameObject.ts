@@ -1,17 +1,17 @@
-import fieldManager from "~/app/Services/FieldService";
-import gameConfig, { ResourceType } from "~/game";
+import fieldState from "~/app/Stores/fields";
 import colors from "~/utils/Colors";
 import { Fonts } from "~/utils/Fonts";
 
 export default class TerrainGameObject extends Phaser.GameObjects.Image
 {
     labelConquestLevel: Phaser.GameObjects.Text;
+    testRatio: Phaser.GameObjects.Text;
     resourceImage: Phaser.GameObjects.Image;
     fieldId: number;
 
     constructor(scene: Phaser.Scene, fieldId: number)
     {
-        let field = fieldManager.getFieldAtPosition(fieldId);
+        let field = fieldState.getFieldById(fieldId);
         let { x, y } = field.position;
         
         super(scene, x, y, 'terrain-zero');
@@ -33,11 +33,20 @@ export default class TerrainGameObject extends Phaser.GameObjects.Image
             .setVisible(false)
             .setPipeline('Light2D')
             .setAlpha(0.8);
+
+        this.testRatio = scene.add.text(546, 310, 'Production Ratio:');
     }
 
     updateInfos()
     {
-        let field = fieldManager.getFieldAtPosition(this.fieldId);
+        let field = fieldState.getFieldById(this.fieldId);
+
+        let TEST_FIELD_RATIO = fieldState.getFieldById(5);
+
+        this.testRatio.setText([
+            `Production Ratio: x${TEST_FIELD_RATIO.resourceRatio}`,
+            `Can Produce: ${TEST_FIELD_RATIO.canProduce()}`,
+        ]);
 
         this.labelConquestLevel.setText(field.conquestLevel.getLevelLabel());
 

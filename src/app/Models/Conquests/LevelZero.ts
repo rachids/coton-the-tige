@@ -15,14 +15,14 @@ export default class LevelZero extends Conquest
         '- Increase the discovery of this field',
     ];
     bonuses: Bonus[] = [
-        new UnlockResource(this.field),
-        new DiscoveryBonus(0.10, this.field),
+        new UnlockResource(this.fieldId),
+        new DiscoveryBonus(0.10, this.fieldId),
     ];
     costs: Cost[] = [
         new EnergyCost(1),
     ];
 
     getNextLevel(): Conquest {
-        return new LevelOne(this.field);
+        return new LevelOne(this.fieldId);
     }
 }
