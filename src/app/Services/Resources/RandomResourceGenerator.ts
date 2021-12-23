@@ -1,12 +1,16 @@
-import { ResourceType } from "~/game";
-import { randomEnumKey } from "~/utils/utils";
+import gameConfig, { ResourceType } from "~/game";
 import goldPolicy from "~/app/Policies/GoldPolicy"
+import { gameState } from "~/app/Stores/game";
 
 export default function generateRandomResource(): string {
-    let randomType = randomEnumKey(ResourceType);
+    let randomType: ResourceType = Phaser.Utils.Array.GetRandom(gameConfig.RESOURCES);
 
-    while (ResourceType[randomType] == ResourceType.GOLD && goldPolicy.maxGoldTileReached()) {
-        randomType = randomEnumKey(ResourceType);
+    if (! goldPolicy.maxGoldTileReached() && randomType === ResourceType.GOLD) {
+        gameState.incrementCurrentGoldTile();
+    }
+
+    while (randomType == ResourceType.GOLD && goldPolicy.maxGoldTileReached()) {
+        randomType = Phaser.Utils.Array.GetRandom(gameConfig.RESOURCES);
     }
 
     return randomType;

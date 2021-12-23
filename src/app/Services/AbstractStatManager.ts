@@ -6,6 +6,8 @@ export default abstract class AbstractStatManager {
 
     abstract remove(value: number): void;
 
+    abstract hasEnough(value: number): boolean;
+
     setMin(value: number): void
     {
         this.min = value;

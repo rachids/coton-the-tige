@@ -1,5 +1,7 @@
-interface Bonus {
+export interface Bonus {
     execute(): void;
 }
 
-export default Bonus;
+export interface Cost extends Bonus {
+    hasEnough(): boolean;
+}

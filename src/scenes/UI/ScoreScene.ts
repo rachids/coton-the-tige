@@ -3,7 +3,7 @@ import { autorun } from "mobx";
 import { scoreState } from "~/app/Stores/score";
 import { ResourceType } from "~/game";
 import colors from "~/utils/Colors";
-import Fonts from "~/utils/Fonts";
+import { Fonts } from "~/utils/Fonts";
 export default class ScoreScene extends Phaser.Scene
 {
     scoreFood: BadgeLabel;

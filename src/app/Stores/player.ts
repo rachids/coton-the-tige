@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import gameConfig from "~/game";
 
 class PlayerState {
-    currentEnergy: number = 0;
+    currentEnergy: number = gameConfig.STARTING_ENERGY_MAX;
     energyMax: number = gameConfig.STARTING_ENERGY_MAX;
     fieldId: number = 0;
     hasLeftStartOfBoard: boolean = false;

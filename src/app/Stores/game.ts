@@ -17,6 +17,11 @@ class GameState {
     {
         this.lastDiceValue = value;
     }
+
+    incrementCurrentGoldTile()
+    {
+        this.currentGoldTile++;
+    }
 }
 
 export const gameState = new GameState();

@@ -3,13 +3,20 @@ import AbstractStatManager from "../../AbstractStatManager";
 
 export default class StoneManager extends AbstractStatManager
 {
-    add(value: number): void {
+    add(value: number): void 
+    {
         let result = scoreState.stone + this.validateTooMuch(value);
         scoreState.setStone(result);
     }
 
-    remove(value: number): void {
+    remove(value: number): void 
+    {
         let result = scoreState.stone - this.validateTooLittle(value);
         scoreState.setStone(result);
+    }
+
+    hasEnough(value: number): boolean 
+    {
+        return scoreState.stone <= value;
     }
 }

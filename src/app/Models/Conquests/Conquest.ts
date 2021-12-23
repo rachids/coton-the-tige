@@ -1,5 +1,4 @@
-import Bonus from "~/app/Services/Bonuses/BonusManager";
-import ResourceHelper from "~/app/Services/Resources/ResourceHelper";
+import { Bonus, Cost } from "~/app/Services/Bonuses/BonusManager";
 import gameConfig from "~/game";
 import { NotificationType, Notify } from "~/utils/Notify";
 import Terrain from "../Terrain";
@@ -8,11 +7,10 @@ export default abstract class Conquest
 {
     name: string;
     level: number;
-    buildingCost: CostType
     description: string;
     bonusesDescription: string[];
     bonuses: Bonus[] = [];
-    costs: Bonus[] = [];
+    costs: Cost[] = [];
     costsDescription: string[] = [];
     field: Terrain;
 
@@ -20,7 +18,6 @@ export default abstract class Conquest
     {
         this.field = field;
         this.name = 'xxNCL_OVSLYxx';
-        this.buildingCost = {};
         this.level = 1;
         this.description = "The developer must have forgotten something but he was really busy making a probably more important feature.",
         this.bonusesDescription = [];
@@ -72,17 +69,7 @@ export default abstract class Conquest
 
     canBuild(): boolean
     {
-        // Récupérer chacune des valeurs dans BuildingCost
-        for (const resource in this.buildingCost) {
-            let currentResourceAmount = ResourceHelper.findResourceFromString(resource);
-
-            // A la première ressource manquante, on ne peut pas build.
-            if (currentResourceAmount < this.buildingCost[resource]) {
-                return false;
-            }
-        }
-
-        return true;
+        return this.costs.every(cost => cost.hasEnough());
     }
 
     isActive(currentLevel: number): boolean

@@ -1,8 +1,7 @@
 import eventsCenter from "~/app/EventsCenter";
 import { Position } from "~/app/Models/Types/Position";
-import CotonTextStyle from "~/config/textstyle";
 import colors from "~/utils/Colors";
-import Fonts from "~/utils/Fonts";
+import { Fonts, CotonTextStyle } from "~/utils/Fonts";
 import { NotificationType } from "~/utils/Notify";
 
 export default class NotificationScene extends Phaser.Scene {

@@ -1,16 +1,23 @@
 import FoodManager from "../../Resources/Managers/FoodManager";
-import Bonus from "../BonusManager";
+import { Cost } from "../BonusManager";
 
-export default class FoodCost implements Bonus {
+export default class FoodCost implements Cost {
     manager: FoodManager;
     amount: number;
 
-    constructor(amount: number) {
+    constructor(amount: number) 
+    {
         this.manager = new FoodManager();
         this.amount = amount;
     }
 
-    execute(): void {
+    hasEnough(): boolean 
+    {
+        return this.manager.hasEnough(this.amount);
+    }
+
+    execute(): void 
+    {
         this.manager.remove(this.amount);
     }
 }

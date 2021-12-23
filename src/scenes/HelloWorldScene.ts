@@ -34,6 +34,7 @@ export default class HelloWorldScene extends Phaser.Scene
         this.drawPlayer();
 
         this.scene.run('score-scene');
+        this.scene.run('player-info');
         this.scene.run('notification');
         this.scene.run('current-terrain-infos');
 

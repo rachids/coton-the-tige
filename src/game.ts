@@ -20,6 +20,12 @@ const gameConfig = {
         x: 150,
         y: 390,
     },
+    RESOURCES: [
+        ResourceType.FOOD,
+        ResourceType.GOLD,
+        ResourceType.STONE,
+        ResourceType.WOOD,
+    ],
 };
 
 export default gameConfig;

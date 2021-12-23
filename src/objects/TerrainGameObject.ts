@@ -1,7 +1,7 @@
 import fieldManager from "~/app/Services/FieldService";
 import { ResourceType } from "~/game";
 import colors from "~/utils/Colors";
-import Fonts from "~/utils/Fonts";
+import { Fonts } from "~/utils/Fonts";
 
 export default class TerrainGameObject extends Phaser.GameObjects.Image
 {

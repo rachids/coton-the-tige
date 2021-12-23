@@ -113,7 +113,7 @@ export default class Terrain {
 
     getResourceManager(): AbstractResourceManager
     {
-        switch (ResourceType[this.type]) {
+        switch (this.type) {
             case ResourceType.FOOD:
                 return new FoodManager
             case ResourceType.WOOD:

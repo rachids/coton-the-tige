@@ -2,13 +2,11 @@ import Label from "phaser3-rex-plugins/templates/ui/label/Label";
 import Conquest from "~/app/Models/Conquests/Conquest";
 import Terrain from "~/app/Models/Terrain";
 import fieldManager from "~/app/Services/FieldService";
-import playerManager from "~/app/Services/PlayerService";
 import ButtonAction from "~/app/Services/UI/Button";
 import { createTextBox } from "~/app/Services/UI/TextBox";
 import { playerState } from "~/app/Stores/player";
-import CotonTextStyle from "~/config/textstyle";
 import colors from "~/utils/Colors";
-import Fonts from "~/utils/Fonts";
+import { Fonts, CotonTextStyle } from "~/utils/Fonts";
 
 export default class ConquestScene extends Phaser.Scene {
     constructor()

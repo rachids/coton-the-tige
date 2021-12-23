@@ -13,5 +13,10 @@ export default class EnergyManager extends AbstractStatManager
     remove(value: number): void {
         playerState.removeCurrentEnergy(this.validateTooLittle(value));
     }
+
+    hasEnough(value: number): boolean
+    {
+        return playerState.currentEnergy >= value;
+    }
     
 }

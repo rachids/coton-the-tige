@@ -6,7 +6,7 @@ import fieldManager from "~/app/Services/FieldService";
 import ButtonAction from "~/app/Services/UI/Button";
 import ProgressBar from "~/app/Services/UI/ProgressBar";
 import colors from "~/utils/Colors";
-import Fonts from "~/utils/Fonts";
+import { Fonts } from "~/utils/Fonts";
 import { playerState } from "~/app/Stores/player";
 
 export default class CurrentTerrainInfos extends Phaser.Scene {
@@ -75,6 +75,7 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
         this.actionButtons.on('button.click', (button: Label, index, pointer, event) => {
             this.scene.sendToBack(this);
             this.scene.sendToBack('score-scene');
+            this.scene.sendToBack('player-info');
             this.scene.sendToBack('hello-world');
             button.execute();
         });
