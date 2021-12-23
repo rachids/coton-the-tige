@@ -6,6 +6,7 @@
 import eventsCenter from "./EventsCenter";
 import { getLandingCase } from "./Models/CasePosition";
 import fieldManager from "./Services/FieldService";
+import EnergyManager from "./Services/Resources/Managers/EnergyManager";
 import { gameState } from "./Stores/game";
 import { playerState } from "./Stores/player";
 import { scoreState } from "./Stores/score";
@@ -23,8 +24,10 @@ export const TurnHandler = {
         }
 
         if (fieldDestination.id <= 6 && playerState.hasLeftStartOfBoard) {
-            scoreState.turn++;
+            scoreState.incrementsTurn();
             playerState.setLeftStartOfBoard(false);
+            let energyManager = new EnergyManager();
+            energyManager.refillOnNewTurn();
         }
 
         fieldDestination.onLanding();

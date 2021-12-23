@@ -7,11 +7,28 @@ export default class EnergyManager extends AbstractStatManager
     max: number = playerState.energyMax;
 
     add(value: number): void {
-        playerState.addCurrentEnergy(this.validateTooMuch(value));
+        let result = this.validateTooMuch(value) + playerState.currentEnergy;
+        
+        if (result > playerState.energyMax) {
+            result = playerState.energyMax;
+        }
+
+        playerState.setCurrentEnergy(result);
     }
 
     remove(value: number): void {
         playerState.removeCurrentEnergy(this.validateTooLittle(value));
+    }
+
+    refillOnNewTurn(): void
+    {
+        let hasTechnologyForTotalRefresh = false;
+        // TODO: If technology "Total Refresh", then refresh plenty
+        if (hasTechnologyForTotalRefresh) {
+            this.add(playerState.energyMax);
+        } else {
+            this.add(1);
+        }
     }
 
     hasEnough(value: number): boolean

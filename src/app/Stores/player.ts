@@ -17,6 +17,11 @@ class PlayerState {
         this.fieldId = value;
     }
 
+    setCurrentEnergy(value: number)
+    {
+        this.currentEnergy = value;
+    }
+
     addCurrentEnergy(value: number)
     {
         this.currentEnergy += value;

@@ -28,6 +28,11 @@ class ScoreState {
     {
         this.stone = value;
     }
+
+    incrementsTurn()
+    {
+        this.turn++;
+    }
 }
 
 export const scoreState = new ScoreState();
