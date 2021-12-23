@@ -1,3 +1,5 @@
+import DiscoveryLevelPolicy from "~/app/Policies/DiscoveryLevelPolicy";
+import { Policy } from "~/app/Policies/Policy";
 import { Bonus, Cost } from "~/app/Services/Bonuses/BonusManager";
 import EnergyCost from "~/app/Services/Bonuses/Costs/EnergyCost";
 import DiscoveryBonus from "~/app/Services/Bonuses/DiscoveryBonus";
@@ -20,6 +22,9 @@ export default class LevelZero extends Conquest
     ];
     costs: Cost[] = [
         new EnergyCost(1),
+    ];
+    requirements: Policy[] = [
+        new DiscoveryLevelPolicy(this.fieldId, 1),
     ];
 
     getNextLevel(): Conquest {

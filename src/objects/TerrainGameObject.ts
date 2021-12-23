@@ -45,13 +45,12 @@ export default class TerrainGameObject extends Phaser.GameObjects.Image
 
         this.testRatio.setText([
             `Production Ratio: x${TEST_FIELD_RATIO.resourceRatio}`,
-            `Can Produce: ${TEST_FIELD_RATIO.canProduce()}`,
+            `Discovery Ratio: x${TEST_FIELD_RATIO.discoveryRatio}`,
         ]);
 
         this.labelConquestLevel.setText(field.conquestLevel.getLevelLabel());
 
         if (field.canSeeResource()) {
-            //console.log('i can see ressource on field', field.id);
             this.resourceImage.setVisible(true);
         }
 

@@ -1,11 +1,16 @@
-import score from "../Stores";
 import { gameState } from "../Stores/game";
+import { Policy } from "./Policy";
 
-const goldPolicy = {
-    maxGoldTileReached(): boolean 
+class GoldPolicy implements Policy
+{
+    pass(): boolean 
     {
         return gameState.currentGoldTile >= gameState.maxGoldTile;
-    },
+    }
+
+    showLabel(): string {
+        throw new Error("Method not implemented.");
+    }
 };
 
-export default goldPolicy;
+export const goldPolicy = new GoldPolicy();

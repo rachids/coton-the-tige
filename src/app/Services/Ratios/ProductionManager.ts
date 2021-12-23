@@ -1,4 +1,4 @@
-import ratios from "~/app/Ratios";
+import fieldState from "~/app/Stores/fields";
 import { playerState } from "~/app/Stores/player";
 import AbstractRatioManager from "./AbstractRatioManager";
 
@@ -10,7 +10,7 @@ export default class ProductionManager extends AbstractRatioManager
                 playerState.productionRatio + value
             );
         } else {
-            throw new Error('Implements ratio for fields');
+            fieldState.addProductionRatio(this.fieldId, value);
         }
     }
 
@@ -20,7 +20,7 @@ export default class ProductionManager extends AbstractRatioManager
                 playerState.productionRatio - value
             );
         } else {
-            throw new Error('Implements ratio for fields');
+            throw new Error('Implements removal of production ratio for fields');
         }
     }
 }

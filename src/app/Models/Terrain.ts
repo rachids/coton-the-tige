@@ -1,6 +1,4 @@
 import { ResourceType } from "~/game";
-import eventsCenter from "../EventsCenter";
-import ratios from "../Ratios";
 import { CasePosition, Position } from "./Types/Position";
 import generateRandomResource from "../Services/Resources/RandomResourceGenerator";
 import Leveling from "~/utils/Leveling";
@@ -77,7 +75,7 @@ export default class Terrain {
 
     inscreaseDiscovery(value: number)
     {
-        this.discoveryXp += value * playerState.discoveryRatio;
+        this.discoveryXp += value * playerState.discoveryRatio * this.discoveryRatio;
 
         if (this.discoveryLevelUp()) {
             this.discoveryXp = 0;

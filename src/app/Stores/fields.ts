@@ -34,6 +34,16 @@ class FieldState {
     {
         this.getFieldById(id).conquestLevel = level;
     }
+
+    addDiscoveryRatio(id: number, value: number)
+    {
+        this.getFieldById(id).discoveryRatio += value;
+    }
+
+    addProductionRatio(id: number, value: number)
+    {
+        this.getFieldById(id).resourceRatio += value;
+    }
 }
 
 const fieldState = new FieldState();

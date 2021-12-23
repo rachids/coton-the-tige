@@ -1,7 +1,6 @@
 import Label from "phaser3-rex-plugins/templates/ui/label/Label";
 import Conquest from "~/app/Models/Conquests/Conquest";
 import Terrain from "~/app/Models/Terrain";
-import fieldManager from "~/app/Services/FieldService";
 import ButtonAction from "~/app/Services/UI/Button";
 import { createTextBox } from "~/app/Services/UI/TextBox";
 import fieldState from "~/app/Stores/fields";
@@ -65,15 +64,34 @@ export default class ConquestScene extends Phaser.Scene {
             },
         });
 
-        let costs = field.conquestLevel.showCostsLabel();
-        this.rexUI.add.BBCodeText(535, 345, costs, {
-            fontSize: '14px',
-            fontFamily: Fonts.forFunkiness,
+        this.rexUI.add.BBCodeText(635, 325, `[size=18][b]Requirements:[/b][/size]`, {
+            fontFamily: Fonts.forLabel,
             wrap: {
                 mode: 'word',
                 width: 220,
             },
         });
+
+        let costs = field.conquestLevel.showCostsLabel();
+        this.rexUI.add.BBCodeText(535, 345, costs, {
+            fontSize: '12px',
+            fontFamily: Fonts.forFunkiness,
+            wrap: {
+                mode: 'word',
+                width: 100,
+            },
+        });
+
+        let requirements = field.conquestLevel.showRequirementsLabel();
+        this.rexUI.add.BBCodeText(635, 345, requirements, {
+            fontSize: '12px',
+            fontFamily: Fonts.forFunkiness,
+            wrap: {
+                mode: 'word',
+                width: 100,
+            },
+        });
+
 
         let buttons = this.rexUI.add.buttons({
             x: 640, y: 450,

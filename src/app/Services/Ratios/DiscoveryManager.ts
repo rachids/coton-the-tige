@@ -1,32 +1,19 @@
-import ratios from "~/app/Ratios";
+import fieldState from "~/app/Stores/fields";
+import { playerState } from "~/app/Stores/player";
 import AbstractRatioManager from "./AbstractRatioManager";
 
 export default class DiscoveryManager extends AbstractRatioManager
 {
     add(value: number): void {
-        if (this.field === undefined) {
-            ratios.DISCOVERY_XP += value;
+        if (this.fieldId === undefined) {
+            playerState.setDiscoveryRatio(
+                playerState.discoveryRatio + value
+            );
         } else {
-            try {
-                this.field.discoveryRatio += value;   
-            } catch (error) {
-                throw new Error('DiscoveryManager has failed.');
-            }
+            fieldState.addDiscoveryRatio(this.fieldId, value);
         }
     }
     remove(value: number): void {
-        if (this.field === undefined) {
-            ratios.DISCOVERY_XP -= value;
-        } else {
-            try {
-                this.field.discoveryRatio -= value;
-            } catch (error) {
-                throw new Error('DiscoveryManager has failed.', error);
-            }
-        }
-    }
-    
-    hasEnough(value: number): boolean {
-        throw new Error("Method not implemented.");
+        throw new Error("Implements removal of discovery ratio.");
     }
 }

@@ -1,3 +1,4 @@
+import { Policy } from "~/app/Policies/Policy";
 import { Bonus, Cost } from "~/app/Services/Bonuses/BonusManager";
 import fieldState from "~/app/Stores/fields";
 import gameConfig from "~/game";
@@ -12,7 +13,9 @@ export default abstract class Conquest
     bonusesDescription: string[];
     bonuses: Bonus[] = [];
     costs: Cost[] = [];
+    requirements: Policy[] = [];
     fieldId: number;
+
 
     constructor(fieldId: number)
     {
@@ -75,7 +78,7 @@ export default abstract class Conquest
 
     canBuild(): boolean
     {
-        return this.costs.every(cost => cost.hasEnough());
+        return this.costs.every(cost => cost.hasEnough()) && this.requirements.every(req => req.pass());
     }
 
     isActive(currentLevel: number): boolean
@@ -98,6 +101,19 @@ export default abstract class Conquest
         let label = '';
 
         this.costs.forEach(cost => label += cost.showLabel() + "\n");
+
+        return label;
+    }
+
+    showRequirementsLabel(): string
+    {
+        let label = '';
+
+        this.requirements.forEach(req => label += req.showLabel() + "\n");
+
+        if (label === '') {
+            label = 'None';
+        }
 
         return label;
     }

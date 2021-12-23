@@ -1,5 +1,3 @@
-import AbstractRatioManager from "./Ratios/AbstractRatioManager";
-
 export abstract class AbstractManager {
     min: number = 0;
     max: number = 999999;
