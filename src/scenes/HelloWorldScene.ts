@@ -42,9 +42,7 @@ export default class HelloWorldScene extends Phaser.Scene
     }
 
     update(): void {
-        this.terrains.forEach(terrainGameObject => {
-            terrainGameObject.updateInfos();
-        });
+        this.terrains.forEach(terrainGameObject => terrainGameObject.updateInfos());
 
         this.debugCoordinates.setText([
             'screen x: ' + this.input.x,

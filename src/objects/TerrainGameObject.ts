@@ -1,5 +1,5 @@
 import fieldManager from "~/app/Services/FieldService";
-import { ResourceType } from "~/game";
+import gameConfig, { ResourceType } from "~/game";
 import colors from "~/utils/Colors";
 import { Fonts } from "~/utils/Fonts";
 
@@ -14,7 +14,7 @@ export default class TerrainGameObject extends Phaser.GameObjects.Image
         let field = fieldManager.getFieldAtPosition(fieldId);
         let { x, y } = field.position;
         
-        super(scene, x, y, 'terrain');
+        super(scene, x, y, 'terrain-zero');
         
         this.fieldId = fieldId;
 
@@ -27,7 +27,7 @@ export default class TerrainGameObject extends Phaser.GameObjects.Image
             fontFamily: Fonts.forStats,
         }).setDepth(10);
 
-        this.resourceImage = scene.add.image(x + 47, y + 47, ResourceType[field.type]).setScale(0.3).setDepth(10).setVisible(false);
+        this.resourceImage = scene.add.image(x + 47, y + 47, field.type).setScale(0.5).setDepth(5).setVisible(false);
     }
 
     updateInfos()
@@ -37,7 +37,38 @@ export default class TerrainGameObject extends Phaser.GameObjects.Image
         this.labelConquestLevel.setText(field.conquestLevel.getLevelLabel());
 
         if (field.canSeeResource()) {
+            //console.log('i can see ressource on field', field.id);
             this.resourceImage.setVisible(true);
+        }
+
+        switch (field.conquestLevel.level) {
+            case 0:
+                this.setTexture('terrain-zero');
+                break;
+
+            case 1:
+                this.setTexture('terrain-one');
+                break;
+
+            case 2:
+                this.setTexture('terrain-two');
+                break;
+
+            case 3:
+                this.setTexture('terrain-three');
+                break;
+
+            case 4:
+                this.setTexture('terrain-four');
+                break;
+
+            case 5:
+                this.setTexture('terrain-max');
+                break;
+        
+            default:
+                this.setTexture('terrain-zero');
+                break;
         }
     }
 }
