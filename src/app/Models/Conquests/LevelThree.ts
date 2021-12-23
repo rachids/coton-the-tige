@@ -9,7 +9,8 @@ export default class LevelThree extends Conquest
 {
     name: string = 'Bunflix and Chill';
     level: number = 3;
-    description: string = 'What if I meet that special one? I really need to make this field more welcoming. That tree is going down.';
+    texture: string = 'terrain-two';
+    description: string = 'What if I meet that special one? I must work harder to make this field more welcoming. Oh and that tree is going down.';
     bonusesDescription: string[] = [
         '- Mega production bonus for the current field',
         '- Increase production in adjacent fields',

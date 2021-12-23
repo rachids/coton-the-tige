@@ -10,6 +10,7 @@ export default class LevelOne extends Conquest
 {
     name: string = 'Dis My Land Now';
     level: number = 1;
+    texture: string = 'terrain-zero';
     description: string = 'Chopping down trees so I can produce more! That\'s what humans would do so why not me.';
     bonusesDescription: string[] = [
         '- Slightly increase your discovery skill for each field',

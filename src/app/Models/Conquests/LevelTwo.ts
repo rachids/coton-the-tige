@@ -10,6 +10,7 @@ export default class LevelTwo extends Conquest
 {
     name: string = 'Make It Cozy';
     level: number = 2;
+    texture: string = 'terrain-one';
     description: string = 'I really like it here. Let\'s put some comfy stuff for my precious butt.';
     bonusesDescription: string[] = [
         '- Increase production in every fields',

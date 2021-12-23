@@ -11,6 +11,7 @@ export default class LevelZero extends Conquest
 {
     name: string = 'New Land';
     level: number = 0;
+    texture: string = 'terrain-zero';
     description: string = 'This fresh piece of land seems to have no owner. Let\'s make it ours!';
     bonusesDescription: string[] = [
         '- Unlock production of the resource',

@@ -9,6 +9,7 @@ export default abstract class Conquest
 {
     name: string;
     level: number;
+    texture: string = 'terrain-zero';
     description: string;
     bonusesDescription: string[];
     bonuses: Bonus[] = [];

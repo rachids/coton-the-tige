@@ -34,7 +34,7 @@ export default class TerrainGameObject extends Phaser.GameObjects.Image
             .setPipeline('Light2D')
             .setAlpha(0.8);
 
-        this.testRatio = scene.add.text(546, 310, 'Production Ratio:');
+        this.testRatio = scene.add.text(28, 525, 'Production Ratio:');
     }
 
     updateInfos()
@@ -54,34 +54,6 @@ export default class TerrainGameObject extends Phaser.GameObjects.Image
             this.resourceImage.setVisible(true);
         }
 
-        switch (field.conquestLevel.level) {
-            case 0:
-                this.setTexture('terrain-zero');
-                break;
-
-            case 1:
-                this.setTexture('terrain-zero');
-                break;
-
-            case 2:
-                this.setTexture('terrain-one');
-                break;
-
-            case 3:
-                this.setTexture('terrain-two');
-                break;
-
-            case 4:
-                this.setTexture('terrain-three');
-                break;
-
-            case 5:
-                this.setTexture('terrain-four');
-                break;
-        
-            default:
-                this.setTexture('terrain-zero');
-                break;
-        }
+        this.setTexture(field.conquestLevel.texture);
     }
 }
