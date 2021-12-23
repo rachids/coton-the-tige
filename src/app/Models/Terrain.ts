@@ -46,7 +46,7 @@ export default class Terrain {
         this.amountLanded = 0;
         this.producer = this.generateProducer();
         this.unlockedProduction = false;
-        this.conquestLevel = new LevelZero(this);
+        this.conquestLevel = new LevelZero(this.id);
     }
 
     generateProducer(): ResourceProducer

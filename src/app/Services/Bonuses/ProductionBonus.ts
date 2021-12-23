@@ -1,15 +1,15 @@
 import Terrain from "~/app/Models/Terrain";
 import ProductionManager from "../Ratios/ProductionManager";
-import Bonus from "./BonusManager";
+import { Bonus } from "./BonusManager";
 
 export default class ProductionBonus implements Bonus
 {
     manager: ProductionManager;
     amount: number;
 
-    constructor(amount: number, target?: Terrain) 
+    constructor(amount: number, fieldId?: number) 
     {
-        this.manager = new ProductionManager(target);    
+        this.manager = new ProductionManager(fieldId);    
         this.amount = amount;
     }
 

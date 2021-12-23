@@ -1,16 +1,15 @@
-import Terrain from "~/app/Models/Terrain";
-import Bonus from "./BonusManager";
+import fieldState from "~/app/Stores/fields";
+import { Bonus } from "./BonusManager";
 
 export default class UnlockResource implements Bonus
 {
-    field: Terrain;
+    fieldId: number;
 
-    constructor(target: Terrain) {
-        this.field = target;
+    constructor(fieldId: number) {
+        this.fieldId = fieldId;
     }
 
     execute(): void {
-        this.field.unlockedProduction = true;
+        fieldState.setUnlockProduction(this.fieldId, true);
     }
-
 }

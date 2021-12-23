@@ -4,6 +4,7 @@ import Terrain from "~/app/Models/Terrain";
 import fieldManager from "~/app/Services/FieldService";
 import ButtonAction from "~/app/Services/UI/Button";
 import { createTextBox } from "~/app/Services/UI/TextBox";
+import fieldState from "~/app/Stores/fields";
 import { playerState } from "~/app/Stores/player";
 import colors from "~/utils/Colors";
 import { Fonts, CotonTextStyle } from "~/utils/Fonts";
@@ -16,7 +17,7 @@ export default class ConquestScene extends Phaser.Scene {
 
     create()
     {
-        let field: Terrain = fieldManager.getFieldAtPosition(playerState.fieldId);
+        let field: Terrain = fieldState.getFieldById(playerState.fieldId);
 
         let graphics = this.add.graphics();
 

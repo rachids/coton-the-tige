@@ -5,8 +5,8 @@
 
 import eventsCenter from "./EventsCenter";
 import { getLandingCase } from "./Models/CasePosition";
-import fieldManager from "./Services/FieldService";
 import EnergyManager from "./Services/Resources/Managers/EnergyManager";
+import fieldState from "./Stores/fields";
 import { gameState } from "./Stores/game";
 import { playerState } from "./Stores/player";
 import { scoreState } from "./Stores/score";
@@ -17,7 +17,7 @@ export const TurnHandler = {
         let currentField = playerState.fieldId;
 
         let landingFieldId = getLandingCase(currentField, gameState.lastDiceValue);
-        let fieldDestination = fieldManager.getFieldAtPosition(landingFieldId);
+        let fieldDestination = fieldState.getFieldById(landingFieldId);
 
         if (fieldDestination.id > 6) {
             playerState.setLeftStartOfBoard(true);

@@ -1,5 +1,4 @@
-import { Position } from "~/app/Models/Types/Position";
-import fieldManager from "~/app/Services/FieldService";
+import fieldState from "~/app/Stores/fields";
 import { playerState } from "~/app/Stores/player";
 import gameConfig from "~/game";
 import colors from "~/utils/Colors";
@@ -24,7 +23,7 @@ export default class PlayerGameObject extends Phaser.GameObjects.Sprite
 
     updatePosition()
     {
-        let position = fieldManager.getPositionFromFieldId(playerState.fieldId);
+        let position = fieldState.getFieldById(playerState.fieldId).position;
 
         this.isMoving = true;
         

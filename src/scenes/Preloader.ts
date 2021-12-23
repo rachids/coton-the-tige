@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { diceManager } from '~/app/Services/DiceService';
-import fieldManager from '~/app/Services/FieldService';
 import playerManager from '~/app/Services/PlayerService';
+import fieldState from '~/app/Stores/fields';
 import { ResourceType } from '~/game';
 
 export default class Preloader extends Phaser.Scene
@@ -97,10 +97,10 @@ export default class Preloader extends Phaser.Scene
         });
 
         // Générer les terrains
-        fieldManager.generateFields();
+        fieldState.generateFields();
 
         // Générer le personnage
-        playerManager.generatePlayer(fieldManager.getFieldAtPosition(1).id);
+        playerManager.generatePlayer(fieldState.getFieldById(1).id);
 
         this.scene.start('hello-world');
     }
