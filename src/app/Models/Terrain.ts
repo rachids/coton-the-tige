@@ -63,7 +63,7 @@ export default class Terrain {
         this.inscreaseDiscovery(diceValue);
 
         if (this.canProduce()) {
-            switch (ResourceType[this.type]) {
+            switch (this.type) {
                 case ResourceType.FOOD:
                     this.currentProductionValue += diceValue * ratios.FOOD;
                     break;
@@ -78,6 +78,7 @@ export default class Terrain {
                     break;
 
                 default:
+                    throw new Error("Field cannot produce: " + this.type);
                     break;
             }
 
