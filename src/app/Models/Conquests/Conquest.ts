@@ -11,7 +11,6 @@ export default abstract class Conquest
     bonusesDescription: string[];
     bonuses: Bonus[] = [];
     costs: Cost[] = [];
-    costsDescription: string[] = [];
     field: Terrain;
 
     constructor(field: Terrain)
@@ -85,5 +84,14 @@ export default abstract class Conquest
     getLevelLabel(): string
     {
         return this.level.toString();
+    }
+
+    showCostsLabel(): string
+    {
+        let label = '';
+
+        this.costs.forEach(cost => label += cost.showLabel() + "\n");
+
+        return label;
     }
 }

@@ -20,4 +20,9 @@ export default class FoodCost implements Cost {
     {
         this.manager.remove(this.amount);
     }
+
+    showLabel(): string
+    {
+        return `${this.amount} Food`;
+    }
 }

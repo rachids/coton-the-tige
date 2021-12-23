@@ -21,9 +21,6 @@ export default class LevelZero extends Conquest
     costs: Cost[] = [
         new EnergyCost(1),
     ];
-    costsDescription: string[] = [
-        '- 1 Energy',
-    ];
 
     getNextLevel(): Conquest {
         return new LevelOne(this.field);

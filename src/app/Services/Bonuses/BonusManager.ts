@@ -4,4 +4,5 @@ export interface Bonus {
 
 export interface Cost extends Bonus {
     hasEnough(): boolean;
+    showLabel(): string;
 }

@@ -64,7 +64,7 @@ export default class ConquestScene extends Phaser.Scene {
             },
         });
 
-        let costs = field.conquestLevel.costsDescription.join('\n');
+        let costs = field.conquestLevel.showCostsLabel();
         this.rexUI.add.BBCodeText(535, 345, costs, {
             fontSize: '14px',
             fontFamily: Fonts.forFunkiness,

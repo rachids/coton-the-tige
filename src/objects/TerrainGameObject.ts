@@ -27,7 +27,12 @@ export default class TerrainGameObject extends Phaser.GameObjects.Image
             fontFamily: Fonts.forStats,
         }).setDepth(10);
 
-        this.resourceImage = scene.add.image(x + 47, y + 47, field.type).setScale(0.5).setDepth(5).setVisible(false);
+        this.resourceImage = scene.add.image(x + 47, y + 47, field.type)
+            .setScale(0.5)
+            .setDepth(5)
+            .setVisible(false)
+            .setPipeline('Light2D')
+            .setAlpha(0.8);
     }
 
     updateInfos()

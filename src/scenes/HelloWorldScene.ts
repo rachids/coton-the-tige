@@ -24,7 +24,7 @@ export default class HelloWorldScene extends Phaser.Scene
         this.lights.setAmbientColor(colors.LAVENDER_GRAY);
 
         eventsCenter.on('PLAYER_SWITCHED_TERRAIN', this.handleTerrainSwitch, this);
-        this.add.image(400, 300, 'board').setPipeline('Light2D').setAlpha(0.8);
+        this.add.image(400, 300, 'board');
 
         this.lights.addLight(270, 260, 128, colors.TART_ORANGE, 3)
 

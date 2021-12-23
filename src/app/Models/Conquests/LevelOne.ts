@@ -17,11 +17,7 @@ export default class LevelOne extends Conquest
     ];
     costs: Cost[] = [
         new FoodCost(5),
-        new EnergyCost(5),
-    ];
-    costsDescription: string[] = [
-        '- 5 Food',
-        '- 1 Energy'
+        new EnergyCost(3),
     ];
 
     getNextLevel(): Conquest {
