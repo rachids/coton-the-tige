@@ -16,7 +16,7 @@ export default class LevelOne extends Conquest
     ];
     bonuses: Bonus[] = [
         new DiscoveryBonus(0.15),
-        new ProductionBonus(0.30, this.fieldId),
+        new ProductionBonus(0.30),
     ];
     costs: Cost[] = [
         //new FoodCost(5),

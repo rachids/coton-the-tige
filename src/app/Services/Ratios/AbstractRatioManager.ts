@@ -1,7 +1,7 @@
 import Terrain from "~/app/Models/Terrain";
-import AbstractStatManager from "../AbstractStatManager";
+import { AbstractManager } from "../AbstractStatManager";
 
-export default abstract class AbstractRatioManager extends AbstractStatManager
+export default abstract class AbstractRatioManager extends AbstractManager
 {
     fieldId?: number;
 

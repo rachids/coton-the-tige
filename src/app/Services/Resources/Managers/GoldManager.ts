@@ -1,7 +1,7 @@
 import { scoreState } from "~/app/Stores/score";
-import AbstractStatManager from "../../AbstractStatManager";
+import { AbstractResourceManager } from "../../AbstractStatManager";
 
-export default class GoldManager extends AbstractStatManager
+export default class GoldManager extends AbstractResourceManager
 {
     add(value: number): void 
     {

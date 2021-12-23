@@ -1,29 +1,26 @@
 import ratios from "~/app/Ratios";
+import { playerState } from "~/app/Stores/player";
 import AbstractRatioManager from "./AbstractRatioManager";
 
 export default class ProductionManager extends AbstractRatioManager
 {
     add(value: number): void {
-        if (this.field === undefined) {
-            ratios.PRODUCTION += value;
+        if (this.fieldId === undefined) {
+            playerState.setProductionRatio(
+                playerState.productionRatio + value
+            );
         } else {
-            try {
-                this.field.resourceRatio += value;
-            } catch (error) {
-                throw new Error('DiscoveryManager has failed.', error);
-            }
+            throw new Error('Implements ratio for fields');
         }
     }
 
     remove(value: number): void {
-        if (this.field === undefined) {
-            ratios.PRODUCTION -= value;
+        if (this.fieldId === undefined) {
+            playerState.setProductionRatio(
+                playerState.productionRatio - value
+            );
         } else {
-            try {
-                this.field.resourceRatio -= value;
-            } catch (error) {
-                throw new Error('DiscoveryManager has failed.', error);
-            }
+            throw new Error('Implements ratio for fields');
         }
     }
 }

@@ -2,6 +2,18 @@
 
 Play as Coton The Tige to make your world a better place to live, full of tasty food. This game is made with Phaser and is based on Ourcade's template : [phaser3-parcel-template](https://github.com/ourcade/phaser3-parcel-template)
 
+## Attributions and credits
+
+- Kenney.nl
+- Tommy from Ourcade.co
+- Some html attribution to place:
+
+```html
+<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+<div>Icons made by <a href="https://www.flaticon.com/authors/icon-box" title="Icon Box">Icon Box</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+```
+
 ## Getting Started
 
 Go into your new project folder and install dependencies:

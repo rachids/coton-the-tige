@@ -1,7 +1,7 @@
 import { scoreState } from "~/app/Stores/score";
-import AbstractStatManager from "../../AbstractStatManager";
+import { AbstractResourceManager } from "../../AbstractStatManager";
 
-export default class WoodManager extends AbstractStatManager
+export default class WoodManager extends AbstractResourceManager
 {
     add(value: number): void 
     {

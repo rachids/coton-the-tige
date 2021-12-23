@@ -26,7 +26,7 @@ export default class NotificationScene extends Phaser.Scene {
         this.tweens.add({
             targets: notification,
             duration: 200,
-            y: posY - 25,
+            y: posY < 113 ? posY + 25 : posY - 25,
             ease: Phaser.Math.Easing.Sine.InOut,
             onComplete: this.removeNotification,
             completeDelay: this.getNotificationDuration(event.notificationType),

@@ -5,7 +5,7 @@ import { CasePosition, Position } from "./Types/Position";
 import generateRandomResource from "../Services/Resources/RandomResourceGenerator";
 import Leveling from "~/utils/Leveling";
 import ResourceProducer from "../Services/Resources/ResourceProducer";
-import AbstractResourceManager from "../Services/AbstractStatManager";
+import { AbstractResourceManager } from "../Services/AbstractStatManager";
 import FoodManager from "../Services/Resources/Managers/FoodManager";
 import StoneManager from "../Services/Resources/Managers/StoneManager";
 import WoodManager from "../Services/Resources/Managers/WoodManager";
@@ -14,6 +14,7 @@ import { NotificationType, Notify } from "~/utils/Notify";
 import Conquest from "./Conquests/Conquest";
 import LevelZero from "./Conquests/LevelZero";
 import { gameState } from "../Stores/game";
+import { playerState } from "../Stores/player";
 
 export default class Terrain {
     id: number;
@@ -63,40 +64,23 @@ export default class Terrain {
         this.inscreaseDiscovery(diceValue);
 
         if (this.canProduce()) {
-            switch (this.type) {
-                case ResourceType.FOOD:
-                    this.currentProductionValue += diceValue * ratios.FOOD;
-                    break;
-                case ResourceType.WOOD:
-                    this.currentProductionValue += diceValue * ratios.WOOD;
-                    break;
-                case ResourceType.STONE:
-                    this.currentProductionValue += diceValue * ratios.STONE;
-                    break;
-                case ResourceType.GOLD:
-                    this.currentProductionValue += diceValue * ratios.GOLD;
-                    break;
 
-                default:
-                    throw new Error("Field cannot produce: " + this.type);
-                    break;
-            }
+            let amountProducedRaw = this.producer.getAmountProduced(diceValue);
+
+            this.currentProductionValue += amountProducedRaw * this.resourceRatio;
 
             if (this.currentProductionValue >= 100) {
                 this.triggerProduction();
             }
         }
-
-        eventsCenter.emit('UPDATE_SCORE');
     }
 
     inscreaseDiscovery(value: number)
     {
-        this.discoveryXp += value * ratios.DISCOVERY_XP;
+        this.discoveryXp += value * playerState.discoveryRatio;
 
         if (this.discoveryLevelUp()) {
             this.discoveryXp = 0;
-            eventsCenter.emit('TILE_LEVEL_UP', this);
         }
     }
 

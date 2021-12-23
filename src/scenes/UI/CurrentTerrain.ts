@@ -103,7 +103,7 @@ export default class CurrentTerrainInfos extends Phaser.Scene {
                 this.actionButtons.setVisible(false);
             }
 
-            this.discoveryXp.text = `Discovery: ${field.discoveryLevel} (${field.discoveryXp}/${field.discoveryNextLevelXp})`;
+            this.discoveryXp.text = `Discovery: ${field.discoveryLevel} (${field.discoveryXp.toFixed(2)}/${field.discoveryNextLevelXp})`;
         });
     }
 }

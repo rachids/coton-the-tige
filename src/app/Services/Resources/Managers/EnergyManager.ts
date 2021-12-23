@@ -1,7 +1,7 @@
 import { playerState } from "~/app/Stores/player";
-import AbstractStatManager from "../../AbstractStatManager";
+import { AbstractResourceManager } from "../../AbstractStatManager";
 
-export default class EnergyManager extends AbstractStatManager
+export default class EnergyManager extends AbstractResourceManager
 {
     min: number = 0;
     max: number = playerState.energyMax;

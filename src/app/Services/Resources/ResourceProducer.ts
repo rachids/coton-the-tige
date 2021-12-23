@@ -1,4 +1,5 @@
-import AbstractResourceManager from "../AbstractStatManager";
+import { playerState } from "~/app/Stores/player";
+import { AbstractResourceManager } from "../AbstractStatManager";
 
 export default class ResourceProducer {
     canHaveSurplus: boolean;
@@ -12,6 +13,11 @@ export default class ResourceProducer {
 
     setRatio(value: number) {
         this.ratio = value;
+    }
+
+    getAmountProduced(diceValue: number): number
+    {
+        return diceValue * playerState.productionRatio;
     }
 
     produce(value: number): { amount: number, surplus: number} {

@@ -1,12 +1,12 @@
-export default abstract class AbstractStatManager {
+import AbstractRatioManager from "./Ratios/AbstractRatioManager";
+
+export abstract class AbstractManager {
     min: number = 0;
     max: number = 999999;
 
     abstract add(value: number): void;
 
     abstract remove(value: number): void;
-
-    abstract hasEnough(value: number): boolean;
 
     setMin(value: number): void
     {
@@ -17,6 +17,11 @@ export default abstract class AbstractStatManager {
     {
         this.max = value;
     }
+}
+
+export abstract class AbstractResourceManager extends AbstractManager implements CanSpendStat {
+    
+    abstract hasEnough(value: number): boolean;
 
     validateTooMuch(value: number): number
     {
