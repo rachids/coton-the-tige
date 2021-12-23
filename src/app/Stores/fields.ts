@@ -25,6 +25,25 @@ class FieldState {
         return this.fields[id - 1];
     }
 
+    getAdjacentFieldById(id :number): Terrain[]
+    {
+        let neighbourUp = id + 1;
+        let neighbourDown = id - 1;
+
+        if (neighbourUp > this.fields.length) {
+            neighbourUp = 0;
+        }
+
+        if (neighbourDown < 1) {
+            neighbourDown = this.fields.length;
+        }
+
+        return [
+            this.getFieldById(neighbourDown),
+            this.getFieldById(neighbourUp),
+        ];
+    }
+
     setUnlockProduction(id: number, value: boolean)
     {
         this.getFieldById(id).unlockedProduction = value;

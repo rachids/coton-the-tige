@@ -5,18 +5,18 @@ export default class StoneManager extends AbstractResourceManager
 {
     add(value: number): void 
     {
-        let result = scoreState.stone + this.validateTooMuch(value);
+        let result = this.validateTooMuch(scoreState.stone + value);
         scoreState.setStone(result);
     }
 
     remove(value: number): void 
     {
-        let result = scoreState.stone - this.validateTooLittle(value);
+        let result = this.validateTooLittle(scoreState.stone - value);
         scoreState.setStone(result);
     }
 
     hasEnough(value: number): boolean 
     {
-        return scoreState.stone <= value;
+        return scoreState.stone >= value;
     }
 }

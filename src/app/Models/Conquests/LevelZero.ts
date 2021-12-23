@@ -11,14 +11,14 @@ export default class LevelZero extends Conquest
 {
     name: string = 'New Land';
     level: number = 0;
-    description: string = 'This fresh piece of land seems to have some resources to extract. Let\'s make it ours!';
+    description: string = 'This fresh piece of land seems to have no owner. Let\'s make it ours!';
     bonusesDescription: string[] = [
         '- Unlock production of the resource',
         '- Increase the discovery of this field',
     ];
     bonuses: Bonus[] = [
         new UnlockResource(this.fieldId),
-        new DiscoveryBonus(0.10, this.fieldId),
+        new DiscoveryBonus(0.50, this.fieldId),
     ];
     costs: Cost[] = [
         new EnergyCost(1),

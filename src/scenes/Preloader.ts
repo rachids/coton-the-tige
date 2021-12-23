@@ -36,7 +36,6 @@ export default class Preloader extends Phaser.Scene
         this.load.image('terrain-two', 'images/terrain_two.png');
         this.load.image('terrain-three', 'images/terrain_three.png');
         this.load.image('terrain-four', 'images/terrain_four.png');
-        this.load.image('terrain-max', 'images/terrain_max.png');
 
         // Player
         this.load.spritesheet('player', 'images/bunny.png', {

@@ -7,11 +7,7 @@ export default class EnergyManager extends AbstractResourceManager
     max: number = playerState.energyMax;
 
     add(value: number): void {
-        let result = this.validateTooMuch(value) + playerState.currentEnergy;
-        
-        if (result > playerState.energyMax) {
-            result = playerState.energyMax;
-        }
+        let result = this.validateTooMuch(value + playerState.currentEnergy);
 
         playerState.setCurrentEnergy(result);
     }

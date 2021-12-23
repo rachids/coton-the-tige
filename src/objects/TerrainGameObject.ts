@@ -60,23 +60,23 @@ export default class TerrainGameObject extends Phaser.GameObjects.Image
                 break;
 
             case 1:
-                this.setTexture('terrain-one');
+                this.setTexture('terrain-zero');
                 break;
 
             case 2:
-                this.setTexture('terrain-two');
+                this.setTexture('terrain-one');
                 break;
 
             case 3:
-                this.setTexture('terrain-three');
+                this.setTexture('terrain-two');
                 break;
 
             case 4:
-                this.setTexture('terrain-four');
+                this.setTexture('terrain-three');
                 break;
 
             case 5:
-                this.setTexture('terrain-max');
+                this.setTexture('terrain-four');
                 break;
         
             default:

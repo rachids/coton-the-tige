@@ -10,13 +10,13 @@ export default class FoodManager extends AbstractResourceManager
     
     add(value: number): void 
     {
-        let result: number = scoreState.food + this.validateTooMuch(value);
+        let result: number = this.validateTooMuch(scoreState.food + value);
         scoreState.setFood(result);
     }
 
     remove(value: number): void 
     {
-        let result: number = scoreState.food - this.validateTooLittle(value);
+        let result: number = this.validateTooLittle(scoreState.food - value);
         scoreState.setFood(result);
     }
 }

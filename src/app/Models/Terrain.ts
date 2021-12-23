@@ -13,6 +13,7 @@ import Conquest from "./Conquests/Conquest";
 import LevelZero from "./Conquests/LevelZero";
 import { gameState } from "../Stores/game";
 import { playerState } from "../Stores/player";
+import { getResourceManager } from "../Services/Resources/utils";
 
 export default class Terrain {
     id: number;
@@ -50,7 +51,7 @@ export default class Terrain {
 
     generateProducer(): ResourceProducer
     {
-        return new ResourceProducer(this.getResourceManager(), false);
+        return new ResourceProducer(getResourceManager(this.type), false);
     }
 
     onLanding()
@@ -92,23 +93,6 @@ export default class Terrain {
         }
 
         return false;
-    }
-
-    getResourceManager(): AbstractResourceManager
-    {
-        switch (this.type) {
-            case ResourceType.FOOD:
-                return new FoodManager
-            case ResourceType.WOOD:
-                return new WoodManager
-            case ResourceType.STONE:
-                return new StoneManager
-            case ResourceType.GOLD:
-                return new GoldManager
-
-            default:
-                throw new Error('It seems the developer forgot he had to add something here about the resource managers or something.');
-        }
     }
 
     triggerProduction()
